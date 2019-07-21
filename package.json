@@ -1,0 +1,21 @@
+{
+  "name": "com.nebukam.geom",
+  "version": "0.0.1",
+  "displayName": "N:Geom",
+  "description": "Various geometry utils, from splines to procedural mesh generation",
+  "unity": "2019.1",
+  "unityRelease": "10f1",
+  "keywords": [
+    "Geometry",
+	"Splines"
+  ],
+  "category": "Geometry",
+  "author": {
+    "name": "Timothe Lapetite",
+    "email": "nebukam@gmail.com",
+    "url": "https://github.com/Nebukam/com.nebukam.geom.git"
+  },
+  "dependencies": {
+    "com.nebukam.utils": "https://github.com/Nebukam/com.nebukam.utils.git"
+  }
+}
