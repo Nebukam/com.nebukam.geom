@@ -103,16 +103,32 @@ namespace Nebukam.Geom
         }
 
         /// <summary>
-        /// Check if this segment is intersecting with another given segment, on the XY (2D) plane
+        /// Check if this segment is intersecting with another given segment, on the XY (2D) plane,
+        /// Faster alternative, since the intersection point is not required.
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
         public bool IsIntersectingXY(Segment segment)
         {
-            Vector3 intersectPoint;
-            return IsIntersectingXY(segment, out intersectPoint);
-        }
+            Vector2 SA = segment.A, SB = segment.B;
+            float denominator = (SB.y - SA.y) * (B.x - A.x) - (SB.x - SA.x) * (B.y - A.y);
 
+            //Make sure the denominator is > 0, if not the lines are parallel
+            if (denominator != 0f)
+            {
+                float u_a = ((SB.x - SA.x) * (A.y - SA.y) - (SB.y - SA.y) * (A.x - SA.x)) / denominator;
+                float u_b = ((B.x - A.x) * (A.y - SA.y) - (B.y - A.y) * (A.x - SA.x)) / denominator;
+
+                //Is intersecting if u_a and u_b are between 0 and 1
+                if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
         /// <summary>
         /// Check if this segment is intersecting with another given segment, on the XY (2D) plane
         /// </summary>
@@ -145,7 +161,8 @@ namespace Nebukam.Geom
             k2 = (_C * SA.x) + (_D * SA.y);
 
             //re the lines parallel? -> no solutions
-            float temp = Vector2.Angle(AAN, BBN);
+            Vector2 an = AAN.normalized, bn = BBN.normalized;
+            float temp = Mathf.Acos(Mathf.Clamp((an.x * bn.x + an.y * bn.y), -1f, 1f)) * 57.29578f;
             if (temp == 0f || temp == 180f) { return false; }
 
             // Are the lines the same line? -> infinite amount of solutions
@@ -168,13 +185,35 @@ namespace Nebukam.Geom
 
         /// <summary>
         /// Check if this segment is intersecting with another given segment, on the XZ plane
+        /// Faster alternative, since the intersection point is not required.
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
         public bool IsIntersectingXZ(Segment segment)
         {
-            Vector3 intersectPoint;
-            return IsIntersectingXZ(segment, out intersectPoint);
+            Vector2
+            LA = new Vector2(A.x, A.z),
+            LB = new Vector2(B.x, B.z),
+
+            SA = new Vector2(segment.A.x, segment.A.z),
+            SB = new Vector2(segment.B.x, segment.B.z);
+
+            float denominator = (SB.y - SA.y) * (LB.x - LA.x) - (SB.x - SA.x) * (LB.y - LA.y);
+
+            //Make sure the denominator is > 0, if not the lines are parallel
+            if (denominator != 0f)
+            {
+                float u_a = ((SB.x - SA.x) * (LA.y - SA.y) - (SB.y - SA.y) * (LA.x - SA.x)) / denominator;
+                float u_b = ((LB.x - LA.x) * (LA.y - SA.y) - (LB.y - LA.y) * (LA.x - SA.x)) / denominator;
+
+                //Is intersecting if u_a and u_b are between 0 and 1
+                if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -212,7 +251,8 @@ namespace Nebukam.Geom
             k2 = (_C * SA.x) + (_D * SA.y);
 
             //re the lines parallel? -> no solutions
-            float temp = Vector2.Angle(AAN, BBN);
+            Vector2 an = AAN.normalized, bn = BBN.normalized;
+            float temp = Mathf.Acos(Mathf.Clamp((an.x * bn.x + an.y * bn.y), -1f, 1f)) * 57.29578f;
             if (temp == 0f || temp == 180f) { return false; }
 
             // Are the lines the same line? -> infinite amount of solutions

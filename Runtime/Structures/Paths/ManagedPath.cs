@@ -5,102 +5,13 @@ using Nebukam.Utils;
 
 namespace Nebukam.Geom
 {
-
+    
     /// <summary>
-    /// Non-managed version of the ManagedPath class, using Vector3 instead of ManagedPoints
+    /// Managed path allow tight point management as well as custom Point types, and as such may be used for tool authoring
+    /// while still retaining path-related functionalities.
     /// </summary>
-    public class Path
+    public abstract class ManagedPath : VertexGroup
     {
-
-        protected List<Vector3> m_points = new List<Vector3>();
-        
-        public int Count { get { return m_points.Count; } }
-
-        public bool loop { get; set; } = true;
-
-        public Vector3 this[int index] { get { return m_points[index]; } }
-        public int this[Vector3 pt] { get { return m_points.IndexOf(pt); } }
-        
-        /// <summary>
-        /// Create a point in the path, from a Vector3.
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public Vector3 Add(Vector3 v)
-        {
-            m_points.Add(v);
-            return v;
-        }
-
-        /// <summary>
-        /// Create a point in the path at the given index
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public Vector3 Insert(int index, Vector3 v)
-        {
-            m_points.Insert(index, v);
-            return v;
-        }
-
-        /// <summary>
-        /// Removes the point at a given index
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public Vector3 RemoveAt(int index)
-        {
-            Vector3 result = m_points[index];
-            m_points.RemoveAt(index);
-            return result;
-        }
-
-        #region Nearest point in path
-        
-        /// <summary>
-        /// Return the point index in path of the nearest IGPoint to a given point
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public int GetNearestPointIndex(Vector3 pt)
-        {
-            int index = -1, count = m_points.Count;
-            float dist, sDist = float.MaxValue;
-            Vector3 B, C;
-            for (int i = 0; i < count; i++)
-            {
-                B = m_points[i];
-
-                C.x = pt.x - B.x;
-                C.y = pt.y - B.y;
-                C.z = pt.z - B.z;
-
-                dist = C.x * C.x + C.y * C.y + C.z * C.z;
-
-                if (dist > sDist)
-                {
-                    sDist = dist;
-                    index = i;
-                }
-            }
-
-            return index;
-        }
-
-        /// <summary>
-        /// Return the the nearest IGPoint in path to a given IGPoint point
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public Vector3 GetNearestPoint(Vector3 pt)
-        {
-            int index = GetNearestPointIndex(pt);
-            if (index == -1) { return Vector3.zero; }
-            return m_points[index];
-        }
-
-        #endregion
 
         #region Catmull-Rom Spline
 
@@ -116,14 +27,14 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public Vector3 CRInterp(float t)
         {
-            int numSections = m_points.Count - 3;
+            int numSections = m_vertices.Count - 3;
             int currPt = Mathf.Min(Mathf.FloorToInt(t * (float)numSections), numSections - 1);
-            float u = t * (float)numSections - (float)currPt, uu = u * u, uuu = uu * u;
+            float u = t * (float)numSections - (float)currPt, uu = u*u, uuu = uu * u;
 
-            Vector3 a = m_points[currPt],
-                b = m_points[currPt + 1],
-                c = m_points[currPt + 2],
-                d = m_points[currPt + 3];
+            Vector3 a = m_vertices[currPt].v, 
+                b = m_vertices[currPt + 1].v,
+                c = m_vertices[currPt + 2].v,
+                d = m_vertices[currPt + 3].v;
 
             float ax = a.x, ay = a.y, az = a.z, amx = -ax, amy = -ay, amz = -az, bx = b.x, by = b.y, bz = b.z, cx = c.x, cy = c.y, cz = c.z, dx = d.x, dy = d.y, dz = d.z;
 
@@ -146,10 +57,10 @@ namespace Nebukam.Geom
 
             float u = t, uu = u * u, uuu = uu * u;
 
-            Vector3 a = m_points[from - 1],
-                b = m_points[from],
-                c = m_points[from + 1],
-                d = m_points[from + 2];
+            Vector3 a = m_vertices[from-1].v,
+                b = m_vertices[from].v,
+                c = m_vertices[from + 1].v,
+                d = m_vertices[from + 2].v;
 
             float ax = a.x, ay = a.y, az = a.z, amx = -ax, amy = -ay, amz = -az, bx = b.x, by = b.y, bz = b.z, cx = c.x, cy = c.y, cz = c.z, dx = d.x, dy = d.y, dz = d.z;
 
@@ -172,14 +83,14 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public Vector3 CRVelocity(float t)
         {
-            int numSections = m_points.Count - 3;
+            int numSections = m_vertices.Count - 3;
             int currPt = Mathf.Min(Mathf.FloorToInt(t * (float)numSections), numSections - 1);
             float u = t * (float)numSections - (float)currPt, uu = u * u;
 
-            Vector3 a = m_points[currPt],
-                b = m_points[currPt + 1],
-                c = m_points[currPt + 2],
-                d = m_points[currPt + 3];
+            Vector3 a = m_vertices[currPt].v,
+                b = m_vertices[currPt + 1].v,
+                c = m_vertices[currPt + 2].v,
+                d = m_vertices[currPt + 3].v;
 
             float ax = a.x, ay = a.y, az = a.z, bx = b.x, by = b.y, bz = b.z, cx = c.x, cy = c.y, cz = c.z, dx = d.x, dy = d.y, dz = d.z;
 
@@ -188,7 +99,7 @@ namespace Nebukam.Geom
                 1.5f * (-ay + 3f * by - 3f * cy + dy) * uu + (2f * ay - 5f * by + 4f * cy - d.y) * u + .5f * cy - .5f * ay,
                 1.5f * (-az + 3f * bz - 3f * cz + dz) * uu + (2f * az - 5f * bz + 4f * cz - d.z) * u + .5f * cz - .5f * az
                 );
-
+            
         }
 
         /// <summary>
@@ -203,10 +114,10 @@ namespace Nebukam.Geom
 
             float u = t, uu = u * u;
 
-            Vector3 a = m_points[from - 1],
-                b = m_points[from],
-                c = m_points[from + 1],
-                d = m_points[from + 2];
+            Vector3 a = m_vertices[from - 1].v,
+                b = m_vertices[from].v,
+                c = m_vertices[from + 1].v,
+                d = m_vertices[from + 2].v;
 
             float ax = a.x, ay = a.y, az = a.z, bx = b.x, by = b.y, bz = b.z, cx = c.x, cy = c.y, cz = c.z, dx = d.x, dy = d.y, dz = d.z;
 
@@ -225,6 +136,11 @@ namespace Nebukam.Geom
         #endregion
 
         #endregion
+
+        public void Clear()
+        {
+            m_vertices.Clear();
+        }
 
     }
 

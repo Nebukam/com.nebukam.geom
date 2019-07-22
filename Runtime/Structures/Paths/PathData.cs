@@ -6,11 +6,11 @@ namespace Nebukam.Geom
     /// <summary>
     /// Job-friendly snapshot of a GPath instance.
     /// </summary>
-    public struct PathJobData
+    public struct PathData
     {
 
         [ReadOnly]
-        NativeArray<PathPointJobData> pointList;
+        NativeArray<VertexData> pointList;
         
         /// <summary>
         /// Create a Job-friendly snapshot of a given managed path.
@@ -18,16 +18,16 @@ namespace Nebukam.Geom
         /// </summary>
         /// <param name="mPath"></param>
         /// <param name="jobData"></param>
-        public static void CreateFrom( ManagedPath mPath, out PathJobData jobData )
+        public static void CreateFrom( ManagedPath mPath, out PathData jobData )
         {
 
-            jobData = new PathJobData();
+            jobData = new PathData();
 
             int count = mPath.Count;
-            NativeArray<PathPointJobData> pointList = new NativeArray<PathPointJobData>(count, Allocator.Persistent);
+            NativeArray<VertexData> pointList = new NativeArray<VertexData>(count, Allocator.Persistent);
             for(int i = 0; i < count; i++)
             {
-                pointList[i] = new PathPointJobData(i, mPath[i]);
+                pointList[i] = new VertexData(i, mPath[i]);
             }
 
             jobData.pointList = pointList;
@@ -40,16 +40,16 @@ namespace Nebukam.Geom
         /// </summary>
         /// <param name="mPath"></param>
         /// <param name="jobData"></param>
-        public static void CreateFrom(Path mPath, out PathJobData jobData)
+        public static void CreateFrom(Path mPath, out PathData jobData)
         {
 
-            jobData = new PathJobData();
+            jobData = new PathData();
 
             int count = mPath.Count;
-            NativeArray<PathPointJobData> pointList = new NativeArray<PathPointJobData>(count, Allocator.Persistent);
+            NativeArray<VertexData> pointList = new NativeArray<VertexData>(count, Allocator.Persistent);
             for (int i = 0; i < count; i++)
             {
-                pointList[i] = new PathPointJobData(i, mPath[i]);
+                pointList[i] = new VertexData(i, mPath[i]);
             }
 
             jobData.pointList = pointList;
