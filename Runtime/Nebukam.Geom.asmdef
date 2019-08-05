@@ -1,9 +1,12 @@
 {
     "name": "Nebukam.Geom",
     "references": [
-        "GUID:e084d9e086196ec48a84228cb4d5535e"
+        "Unity.Mathematics",
+        "Unity.Collections",
+        "Nebukam.Common",
+        "Nebukam.Utils",
+        "Nebukam.JobAssist"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
