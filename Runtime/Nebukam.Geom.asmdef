@@ -1,6 +1,7 @@
 {
     "name": "Nebukam.Geom",
     "references": [
+        "Unity.Burst",
         "Unity.Mathematics",
         "Unity.Collections",
         "Nebukam.Common",

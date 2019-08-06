@@ -1,4 +1,5 @@
-﻿using Unity.Jobs;
+﻿using Unity.Burst;
+using Unity.Jobs;
 using Unity.Collections;
 using UnityEngine;
 using Unity.Mathematics;
@@ -6,6 +7,7 @@ using Unity.Mathematics;
 namespace Nebukam.Geom
 {
 
+    [BurstCompile]
     public struct EdgesExtractionJob : IJob
     {
         
@@ -21,7 +23,10 @@ namespace Nebukam.Geom
             outputEdges.Clear();
 
             int triCount = inputTriangles.Length, eCount = 0, A, B, C, iA, iB;
-            bool bAB = false, bBC = false, bCA = false;
+            NativeHashMap<int, bool> m_hash = new NativeHashMap<int, bool>(triCount, Allocator.Temp);
+
+            bool bAB = false, bBC = false, bCA = false, r;
+            int hAB, hBC, hCA;
             UnsignedEdge AB, BC, CA, EE;
             Triad triad;
             
@@ -30,16 +35,23 @@ namespace Nebukam.Geom
 
                 triad = inputTriangles[i];
 
-                //This is a bad triangle.
-                //Add edges forming the triangle to the list of hole boundaries
                 A = triad.A; B = triad.B; C = triad.C;
                 AB = new UnsignedEdge(A, B);
                 BC = new UnsignedEdge(B, C);
                 CA = new UnsignedEdge(C, A);
 
+                hAB = AB.GetHashCode();
+                hBC = BC.GetHashCode();
+                hCA = CA.GetHashCode();
+
                 #region Loop
 
-                bAB = false; bBC = false; bCA = false;
+                //Fast but consistency drop over ~200k edges.
+                bAB = m_hash.TryGetValue(hAB, out r);
+                bBC = m_hash.TryGetValue(hBC, out r);
+                bCA = m_hash.TryGetValue(hCA, out r);
+
+                /*
                 eCount = outputEdges.Length;
                 for (int ie = 0; ie < eCount; ie++)
                 {
@@ -52,10 +64,10 @@ namespace Nebukam.Geom
                     else if (!bCA && ((iA == C && iB == A) || (iA == A && iB == C))) { bCA = true; }
 
                 }
-
-                if (!bAB) { outputEdges.Add(AB); }
-                if (!bBC) { outputEdges.Add(BC); }
-                if (!bCA) { outputEdges.Add(CA); }
+                */
+                if (!bAB) { outputEdges.Add(AB); m_hash.TryAdd(hAB, true); }
+                if (!bBC) { outputEdges.Add(BC); m_hash.TryAdd(hBC, true); }
+                if (!bCA) { outputEdges.Add(CA); m_hash.TryAdd(hCA, true); }
 
                 #endregion
             }

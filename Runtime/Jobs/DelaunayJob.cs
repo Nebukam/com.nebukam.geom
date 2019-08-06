@@ -1,11 +1,13 @@
-﻿using Unity.Jobs;
+﻿using Unity.Burst;
+using Unity.Jobs;
 using Unity.Collections;
 using UnityEngine;
 using Unity.Mathematics;
 
 namespace Nebukam.Geom
 {
-    
+
+    [BurstCompile]
     public struct DelaunayJob : IJob
     {
 

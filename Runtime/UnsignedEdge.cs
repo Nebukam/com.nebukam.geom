@@ -13,13 +13,32 @@ namespace Nebukam.Geom
     {
 
         public const int Hh = int.MaxValue / 2;
-        public int A, B, d;// h, d;
+        public int A, B, d, h;//, d;
         
         public UnsignedEdge(int a, int b)
         {
             d = 0;
             A = a;
             B = b;
+
+            unchecked // Overflow is fine, just wrap
+            {
+
+                h = 1000000; //max edge count in a hashmap
+
+                if (A > B)
+                {
+                    h *= A;
+                    h += B;
+                }
+                else
+                {
+                    h *= B;
+                    h += A;
+                }
+
+            }
+
         }
 
         public static bool operator !=(UnsignedEdge e1, UnsignedEdge e2)
@@ -45,27 +64,28 @@ namespace Nebukam.Geom
 
         public override int GetHashCode()
         {
-
+            return h;
+            /*
             unchecked // Overflow is fine, just wrap
             {
 
-                int h = 0;
+                int h = 100000; //max edge count in a hashmap
 
                 if (A > B)
                 {
-                    h += Hh + A.GetHashCode();
-                    h += B.GetHashCode();
+                    h *= A;
+                    h += B;
                 }
                 else
                 {
-                    h += Hh + B.GetHashCode();
-                    h += A.GetHashCode();
+                    h *= B;
+                    h += A;
                 }
 
                 return h;
 
             }
-
+            */
         }
 
     }

@@ -16,6 +16,7 @@
     "url": "https://github.com/Nebukam/com.nebukam.geom.git"
   },
   "dependencies": {
+	"com.unity.burst": "1.1.2",
     "com.unity.collections": "0.0.9",
     "com.unity.mathematics": "1.1.0",
     "com.nebukam.utils": "https://github.com/Nebukam/com.nebukam.utils.git",

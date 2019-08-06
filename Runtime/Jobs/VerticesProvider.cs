@@ -10,7 +10,12 @@ using Nebukam.JobAssist;
 
 namespace Nebukam.Geom
 {
-    
+
+    public interface IVerticesProvider : IProcessor
+    {
+        NativeArray<float3> outputVertices { get; }
+    }
+
     public class VerticesProvider : Processor<Unemployed>, IVerticesProvider
     {
 

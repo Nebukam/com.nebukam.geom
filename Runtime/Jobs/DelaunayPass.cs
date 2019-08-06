@@ -11,7 +11,7 @@ namespace Nebukam.Geom
     /// A Delaunay triangulation pass, to be use in a ProcessingChain.
     /// Requires an IVerticesProvider.
     /// </summary>
-    public class DelaunayProvider : Processor<DelaunayJob>, ITriadProvider
+    public class DelaunayPass : Processor<DelaunayJob>, ITriadProvider
     {
         protected IVerticesProvider m_verticesProvider;
         protected bool m_computeTriadCentroid = false;
