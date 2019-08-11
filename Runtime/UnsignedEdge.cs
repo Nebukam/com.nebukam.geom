@@ -24,7 +24,7 @@ namespace Nebukam.Geom
             unchecked // Overflow is fine, just wrap
             {
 
-                h = 1000000; //max edge count in a hashmap
+                h = 100000; //max edge count in a hashmap
 
                 if (A > B)
                 {
@@ -39,6 +39,15 @@ namespace Nebukam.Geom
 
             }
 
+        }
+
+        public UnsignedEdge ascending { get { return A > B ? new UnsignedEdge(B, A) : this; } }
+
+        public UnsignedEdge descending { get { return A < B ? new UnsignedEdge(B, A) : this; } }
+
+        public bool Contains(int i)
+        {
+            return (A == i || B == i);
         }
 
         public static bool operator !=(UnsignedEdge e1, UnsignedEdge e2)

@@ -16,12 +16,14 @@ namespace Nebukam.Geom
         
         protected bool m_computeTriadCentroid = false;
         protected NativeList<Triad> m_outputTriangles = new NativeList<Triad>(0, Allocator.Persistent);
+        protected NativeList<int> m_outputHullVertices = new NativeList<int>(0, Allocator.Persistent);
+        protected NativeHashMap<int, UnsignedEdge> m_outputUnorderedHull = new NativeHashMap<int, UnsignedEdge>(0, Allocator.Persistent);
 
         /// <summary>
         /// The IVerticesProvider used during preparation.
         /// </summary>
         public IVerticesProvider verticesProvider { get { return this; } }
-
+        
         /// <summary>
         /// Whether or not computing
         /// </summary>
@@ -31,6 +33,8 @@ namespace Nebukam.Geom
         /// Generated triangulation
         /// </summary>
         public NativeList<Triad> outputTriangles { get { return m_outputTriangles; } }
+        public NativeList<int> outputHullVertices { get { return m_outputHullVertices; } }
+        public NativeHashMap<int, UnsignedEdge> outputUnorderedHull { get { return m_outputUnorderedHull; } }
 
         protected override void Prepare(ref DelaunayJob job, float delta)
         {
@@ -38,10 +42,14 @@ namespace Nebukam.Geom
 
             //Clear previously built triangles
             m_outputTriangles.Clear();
+            m_outputHullVertices.Clear();
+            m_outputUnorderedHull.Clear();
 
             job.inputVertices = m_outputVertices;
             job.computeTriadCentroid = m_computeTriadCentroid;
             job.outputTriangles = m_outputTriangles;
+            job.outputHullVertices = m_outputHullVertices;
+            job.outputUnorderedHullEdges = m_outputUnorderedHull;
         }
 
         protected override void Apply(ref DelaunayJob job)

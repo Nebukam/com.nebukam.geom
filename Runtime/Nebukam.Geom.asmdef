@@ -4,6 +4,7 @@
         "Unity.Burst",
         "Unity.Mathematics",
         "Unity.Collections",
+        "Unity.Jobs",
         "Nebukam.Common",
         "Nebukam.Utils",
         "Nebukam.JobAssist"

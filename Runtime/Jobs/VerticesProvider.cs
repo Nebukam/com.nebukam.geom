@@ -13,7 +13,7 @@ namespace Nebukam.Geom
 
     public interface IVerticesProvider : IProcessor
     {
-        NativeArray<float3> outputVertices { get; }
+        NativeList<float3> outputVertices { get; }
     }
 
     public class VerticesProvider : Processor<Unemployed>, IVerticesProvider
@@ -24,29 +24,27 @@ namespace Nebukam.Geom
 
         protected List<IVertex> lockedVertices = new List<IVertex>();
 
-        protected NativeArray<float3> m_outputVertices = new NativeArray<float3>(0, Allocator.Persistent);
-        public NativeArray<float3> outputVertices { get { return m_outputVertices; } }
+        protected NativeList<float3> m_outputVertices = new NativeList<float3>(0, Allocator.Persistent);
+        public NativeList<float3> outputVertices { get { return m_outputVertices; } }
 
         protected override void InternalLock()
         {
-            lockedVertices.Clear();
             int count = m_vertices.Count;
+            lockedVertices.Clear();
             lockedVertices.Capacity = count;
             for (int i = 0; i < count; i++) { lockedVertices.Add(m_vertices[i]); }
         }
 
         protected override void Prepare(ref Unemployed job, float delta)
         {
+
             int vCount = lockedVertices.Count;
-            if (m_outputVertices.Length != vCount)
-            {
-                m_outputVertices.Dispose();
-                m_outputVertices = new NativeArray<float3>(vCount, Allocator.Persistent);
-            }
+            m_outputVertices.Clear();
+            m_outputVertices.Capacity = vCount;
 
             for (int i = 0; i < vCount; i++)
             {
-                m_outputVertices[i] = lockedVertices[i].pos;
+                m_outputVertices.Add(lockedVertices[i].pos);
             }
         }
 

@@ -1,28 +1,14 @@
-﻿using Nebukam.Utils;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
+using Nebukam.Utils;
 
 namespace Nebukam.Geom
 {
-    /*
-        idea on how to make it JobFriendly :
-        have a generic class holding "flat geometry" structure as follow :
-        - NativeList A of VertexData (holding their own index + a float3)
-        - NativeList B of TriangleData (holding their own index as well as VertexData indexes in the above list)
-        - NativeList C of NativeList D, in order to store "shared edges" of each triangle. (indices must be unique entries)
 
-        That means :
-        - each time a triangle is added to B, an entry must be registered to C with the same index.
-        - each Triangle created must have its index updated at all times
-
-        Note : this doesn't solve the problem of edges...
-        https://github.com/RafaelKuebler/DelaunayVoronoi/blob/master/DelaunayVoronoi/Delaunay.cs
-
-     */
-
-    public struct Triad
+    public struct Triad : IEquatable<Triad>
     {
 
         public int A, B, C;
@@ -41,16 +27,34 @@ namespace Nebukam.Geom
             sqRadius = rad;
         }
 
-        public bool SharesEdgeWith(Triad other)
+        public UnsignedEdge OppositeEdge(int v)
         {
-            int oA = other.A, oB = other.B, oC = other.C;
+            return v == A ? new UnsignedEdge(B, C)
+                : v == B ? new UnsignedEdge(A, C)
+                : new UnsignedEdge(A, B);
+        }
+
+        public UnsignedEdge AB { get { return new UnsignedEdge(A, B); } }
+        public UnsignedEdge BC { get { return new UnsignedEdge(B, C); } }
+        public UnsignedEdge CA { get { return new UnsignedEdge(C, A); } }
+
+        public bool SharesEdgeWith(Triad tri)
+        {
+            int oA = tri.A, oB = tri.B, oC = tri.C;
             int i = 0;
             if ( A == oA || A == oB || A == oC ) { i++; };
             if ( B == oA || B == oB || B == oC ) { i++; };
             if ( C == oA || C == oB || C == oC ) { i++; };
             return ( i == 2 );
         }
-        
+
+        public bool SharesVertexWith(Triad tri)
+        {
+            return (A == tri.A || A == tri.B || A == tri.C
+                || B == tri.A || B == tri.B || B == tri.C
+                || C == tri.A || C == tri.B || C == tri.C);
+        }
+
         public bool CircumcircleContainsXY(float3 v)
         {
             return ((v.x - circumcenter.x) * (v.x - circumcenter.x) + (v.y - circumcenter.y) * (v.y - circumcenter.y)) < sqRadius;
@@ -61,23 +65,36 @@ namespace Nebukam.Geom
             return ((v.x - circumcenter.x) * (v.x - circumcenter.x) + (v.z - circumcenter.z) * (v.z - circumcenter.z)) < sqRadius;
         }
 
-        /*
-        #region CW / CCW
-
-        private bool IsCounterClockwiseXY(Vertex a, Vertex b, Vertex c)
+        public bool Equals(Triad tri)
         {
-            float3 vA = a.pos, vB = b.pos, vC = c.pos;
-            return ((vB.x - vA.x) * (vC.y - vA.y) - (vC.x - vA.x) * (vB.y - vA.y)) > 0;
+            return this == tri;
         }
 
-        private bool IsCounterClockwiseXZ(Vertex a, Vertex b, Vertex c)
+        public override bool Equals(object obj)
         {
-            float3 vA = a.pos, vB = b.pos, vC = c.pos;
-            return ((vB.x - vA.x) * (vC.z - vA.z) - (vC.x - vA.x) * (vB.z - vA.z)) > 0;
+            return this == (Triad)obj;
         }
 
-        #endregion
-        */
+        public static bool operator ==(Triad a, Triad b)
+        {
+            return ((a.A == b.A && a.B == b.B && a.C == b.C ) 
+                || (a.A == b.A && a.B == b.C && a.C == b.B) 
+                || (a.A == b.B && a.B == b.A && a.C == b.C) 
+                || (a.A == b.B && a.B == b.C && a.C == b.A) 
+                || (a.A == b.C && a.B == b.A && a.C == b.B) 
+                || (a.A == b.C && a.B == b.B && a.C == b.A));
+        }
+
+        public static bool operator !=(Triad a, Triad b)
+        {
+            return !(a == b);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.A.GetHashCode() ^ this.B.GetHashCode() ^ this.C.GetHashCode();
+        }
+
     }
 
 }

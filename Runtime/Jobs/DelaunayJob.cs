@@ -7,13 +7,20 @@ using Unity.Mathematics;
 namespace Nebukam.Geom
 {
 
+    /// <summary>
+    /// Delaunay triangulation of a set of vertices, using the Bowyer-Watson algorithm
+    /// IMPORTANT NOTE : If two vertex are the same (i.e perfectly overlap), the graph will fail.
+    /// </summary>
+
     [BurstCompile]
     public struct DelaunayJob : IJob
     {
 
         [ReadOnly]
-        public NativeArray<float3> inputVertices;
+        public NativeList<float3> inputVertices;
         public NativeList<Triad> outputTriangles;
+        public NativeList<int> outputHullVertices;
+        public NativeHashMap<int, UnsignedEdge> outputUnorderedHullEdges;
         
         public bool computeTriadCentroid;
 
@@ -182,6 +189,9 @@ namespace Nebukam.Geom
             //as they are linked to initial 4 boundaries vertices
             triCount = outputTriangles.Length;
             t = 0;
+            bool extra;
+            int extraIndex = -1;
+            UnsignedEdge hullEdge;
 
             if (computeTriadCentroid)
             {
@@ -189,9 +199,20 @@ namespace Nebukam.Geom
                 {
                     triad = outputTriangles[i];
                     A = triad.A; B = triad.B; C = triad.C;
+                    extraIndex = -1;
 
-                    if (A >= vCount || B >= vCount || C >= vCount)
+                    if (A >= vCount) { extraIndex = A; }
+                    else if (B >= vCount) { extraIndex = B; }
+                    else if (C >= vCount) { extraIndex = C; }
+
+                    if (extraIndex != -1)
+                    {
+                        //Add opposite edge to unordered hull
+                        hullEdge = triad.OppositeEdge(extraIndex).ascending;
+                        outputUnorderedHullEdges.TryAdd(hullEdge.A, hullEdge);
+                        outputHullVertices.Add(hullEdge.A);
                         continue;
+                    }
 
                     vA = vertices[triad.A];
                     vB = vertices[triad.B];
@@ -208,9 +229,20 @@ namespace Nebukam.Geom
                 {
                     triad = outputTriangles[i];
                     A = triad.A; B = triad.B; C = triad.C;
+                    extraIndex = -1;
 
-                    if (A >= vCount || B >= vCount || C >= vCount)
+                    if (A >= vCount){ extraIndex = A; }
+                    else if(B >= vCount){ extraIndex = B; }
+                    else if (C >= vCount){ extraIndex = C; }
+
+                    if (extraIndex != -1)
+                    {
+                        //Add opposite edge to unordered hull
+                        hullEdge = triad.OppositeEdge(extraIndex).ascending;
+                        outputUnorderedHullEdges.TryAdd(hullEdge.A, hullEdge);
+                        outputHullVertices.Add(hullEdge.A);
                         continue;
+                    }
 
                     outputTriangles[t] = triad;
                     t++;

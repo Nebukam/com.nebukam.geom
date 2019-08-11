@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace Nebukam.Geom
 {
 
-    public struct Triangle
+    public struct Triangle 
     {
 
         public static Triangle zero = new Triangle(float3.zero, float3.zero, float3.zero);
