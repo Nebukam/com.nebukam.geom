@@ -11,6 +11,7 @@ namespace Nebukam.Geom
 
     public interface IUrquhartProvider : IEdgesProvider
     {
+        IVerticesProvider verticesProvider { get; }
         NativeMultiHashMap<int, int> outputConnections { get; }
     }
 
