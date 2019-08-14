@@ -22,12 +22,12 @@ namespace Nebukam.Geom
 
             outputEdges.Clear();
 
-            int triCount = inputTriangles.Length, eCount = 0, A, B, C, iA, iB;
+            int triCount = inputTriangles.Length, A, B, C;
             NativeHashMap<int, bool> m_hash = new NativeHashMap<int, bool>(triCount, Allocator.Temp);
 
             bool bAB = false, bBC = false, bCA = false, r;
             int hAB, hBC, hCA;
-            UnsignedEdge AB, BC, CA, EE;
+            UnsignedEdge AB, BC, CA;
             Triad triad;
             
             for (int i = 0; i < triCount; i++)

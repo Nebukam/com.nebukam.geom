@@ -24,8 +24,7 @@ namespace Nebukam.Geom.Algorithms
         {
 
             List<int> siteNeighbors;
-            UnsignedEdge AB, BC, CA;
-            int tCount = inputTriangles.Count, t, A, B, C;
+            int tCount = inputTriangles.Count;
 
             for (int i = 0, sCount = outputSites.Count; i < sCount; i++)
             {

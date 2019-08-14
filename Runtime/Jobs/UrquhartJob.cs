@@ -31,7 +31,7 @@ namespace Nebukam.Geom
             int A, B, C, vCount = inputVertices.Length, triCount = inputTriangles.Length;
             float3 vA, vB, vC;
             float AB, BC, CA;
-            UnsignedEdge edge, edge2;
+            UnsignedEdge edge;
             Triad triad;
             bool tooLong;
             NativeHashMap<UnsignedEdge, bool> longuestEdges = new NativeHashMap<UnsignedEdge, bool>(triCount * 3, Allocator.Temp);

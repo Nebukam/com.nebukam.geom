@@ -30,7 +30,7 @@ namespace Nebukam.Geom
             NativeList<UnsignedEdge> hole = new NativeList<UnsignedEdge>(20, Allocator.Temp);
 
             float m = 100f;
-            float3 V, vA, vB, vC, bA, bB, bC, bD, centroid;
+            float3 V, vA, vB, vC, bA, bB, bC, centroid;
             int vCount = inputVertices.Length, A = vCount, B = vCount + 1, C = vCount + 2, D = vCount + 3, iA, iB, extraVCount = 3;
             Triad triad;
             NativeArray<float3> vertices = new NativeArray<float3>(vCount + extraVCount, Allocator.Temp);
@@ -189,7 +189,6 @@ namespace Nebukam.Geom
             //as they are linked to initial 4 boundaries vertices
             triCount = outputTriangles.Length;
             t = 0;
-            bool extra;
             int extraIndex = -1;
             UnsignedEdge hullEdge;
 
