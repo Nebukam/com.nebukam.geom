@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
-using Nebukam.Common;
 
 namespace Nebukam.Geom.Algorithms
 {

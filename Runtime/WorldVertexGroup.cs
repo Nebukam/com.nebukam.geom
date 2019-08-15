@@ -2,7 +2,6 @@
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 using Nebukam.Utils;
-using Nebukam.Common;
 
 namespace Nebukam.Geom
 {

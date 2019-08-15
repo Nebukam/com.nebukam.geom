@@ -6,7 +6,6 @@ using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 using Nebukam.JobAssist;
-using Nebukam.Common;
 
 namespace Nebukam.Geom
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Mathematics;
-using Nebukam.Common;
 
 namespace Nebukam.Geom.Algorithms
 {
