@@ -73,10 +73,10 @@ namespace Nebukam.Geom
 
             float dx = (otherCenter.x - center.x),
                 dy = (otherCenter.z - center.z),
-                d = Mathf.Sqrt(dx * dx + dy * dy),
+                d = sqrt(dx * dx + dy * dy),
                 otherRadius = circle.radius;
 
-            if (d <= (radius + otherRadius) && d >= Mathf.Abs(otherRadius - radius))
+            if (d <= (radius + otherRadius) && d >= abs(otherRadius - radius))
                 return true;
             else
                 return false;
@@ -93,14 +93,14 @@ namespace Nebukam.Geom
                 d = sqrt(dx * dx + dy * dy),
                 otherRadius = circle.radius;
 
-            if (d <= (radius + otherRadius) && d >= Mathf.Abs(otherRadius - radius))
+            if (d <= (radius + otherRadius) && d >= abs(otherRadius - radius))
             {
 
                 float rr = radius * radius,
                     ex = (otherCenter.x - center.x) / d,
                     ey = (otherCenter.z - center.z) / d,
                     x = (rr - otherRadius * otherRadius + d * d) / (2 * d),
-                    y = Mathf.Sqrt(rr - x * x),
+                    y = sqrt(rr - x * x),
                     xex = center.x + x * ex, xey = center.z + x * ey,
                     yex = y * ex, yey = y * ey;
 

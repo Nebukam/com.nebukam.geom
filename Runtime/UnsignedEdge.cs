@@ -27,8 +27,7 @@ namespace Nebukam.Geom
     public struct UnsignedEdge : System.IEquatable<UnsignedEdge>
     {
 
-        public const int Hh = int.MaxValue / 2;
-        public int A, B, d, h;//, d;
+        public int A, B, d, h;
         
         public UnsignedEdge(int a, int b)
         {
@@ -89,27 +88,6 @@ namespace Nebukam.Geom
         public override int GetHashCode()
         {
             return h;
-            /*
-            unchecked // Overflow is fine, just wrap
-            {
-
-                int h = 100000; //max edge count in a hashmap
-
-                if (A > B)
-                {
-                    h *= A;
-                    h += B;
-                }
-                else
-                {
-                    h *= B;
-                    h += A;
-                }
-
-                return h;
-
-            }
-            */
         }
 
     }

@@ -56,7 +56,7 @@ namespace Nebukam.Geom
             get
             {
                 float3 C = float3(B.x - A.x, B.y - A.y, B.z - A.z);
-                return Mathf.Sqrt(C.x * C.x + C.y * C.y + C.z * C.z);
+                return sqrt(C.x * C.x + C.y * C.y + C.z * C.z);
             }
         }
 
@@ -85,7 +85,7 @@ namespace Nebukam.Geom
             get
             {
                 float3 C = float3(B.x - A.x, B.y - A.y, B.z - A.z);
-                float d = Mathf.Sqrt(C.x * C.x + C.y * C.y + C.z * C.z);
+                float d = sqrt(C.x * C.x + C.y * C.y + C.z * C.z);
                 return float3(C.x / d, C.y / d, C.z / d);
             }
         }
@@ -142,78 +142,47 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public bool IsIntersectingXY(Segment segment)
         {
-            float2 SA = float2(segment.A.x, segment.A.y), SB = float2(segment.B.x, segment.B.y);
-            float denominator = (SB.y - SA.y) * (B.x - A.x) - (SB.x - SA.x) * (B.y - A.y);
+            float2 A2 = float2(segment.A.x, segment.A.y), B2 = float2(segment.B.x, segment.B.y);
 
-            //Make sure the denominator is > 0, if not the lines are parallel
-            if (denominator != 0f)
-            {
-                float u_a = ((SB.x - SA.x) * (A.y - SA.y) - (SB.y - SA.y) * (A.x - SA.x)) / denominator;
-                float u_b = ((B.x - A.x) * (A.y - SA.y) - (B.y - A.y) * (A.x - SA.x)) / denominator;
+            var d = (B.x - A.x) * (B2.y - A2.y) - (B.y - A.y) * (B2.x - A2.x);
 
-                //Is intersecting if u_a and u_b are between 0 and 1
-                if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
-                {
-                    return true;
-                }
-            }
+            if (d == 0.0f)
+                return false;
 
-            return false;
+            float u = ((A2.x - A.x) * (B2.y - A2.y) - (A2.y - A.y) * (B2.x - A2.x)) / d;
+            float v = ((A2.x - A.x) * (B.y - A.y) - (A2.y - A.y) * (B.x - A.x)) / d;
+
+            if (u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f)
+                return false;
+
+            return true;
         }
-        
+
         /// <summary>
         /// Check if this segment is intersecting with another given segment, on the XY (2D) plane
         /// </summary>
         /// <param name="segment"></param>
         /// <param name="intersectPoint"></param>
         /// <returns></returns>
-        public bool IsIntersectingXY(Segment segment, out float3 intersectPoint)
+        public bool IsIntersectingXY(Segment segment, out float3 intersection)
         {
+            intersection = float3(false);
+            float2 A2 = float2(segment.A.x, segment.A.y), B2 = float2(segment.B.x, segment.B.y);
 
-            intersectPoint = float3(0f,0f,0f);
-            bool isIntersecting = false;
+            var d = (B.x - A.x) * (B2.y - A2.y) - (B.y - A.y) * (B2.x - A2.x);
 
-            //3d -> 2d
-            float2
-            SA = float2(segment.A.x, segment.A.y),
-            SB = float2(segment.B.x, segment.B.y),
+            if (d == 0.0f)
+                return false;
 
-            AADir = normalize(float2(B.x - A.x, B.y - A.y)),
-            BBDir = normalize(float2(SB.x - SA.x, SB.y - SA.y)),
+            float u = ((A2.x - A.x) * (B2.y - A2.y) - (A2.y - A.y) * (B2.x - A2.x)) / d;
+            float v = ((A2.x - A.x) * (B.y - A.y) - (A2.y - A.y) * (B.x - A.x)) / d;
 
-            AAN = float2(-AADir.y, AADir.x),
-            BBN = float2(-BBDir.y, BBDir.x);
+            if (u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f)
+                return false;
 
-            //Step 1: Rewrite the lines to a general form: Ax + By = k1 and Cx + Dy = k2
-            //The normal vector is the A, B
-            float _A = AAN.x, _B = AAN.y, _C = BBN.x, _D = BBN.y,
-
-            //To get k we just use one point on the line
-            k1 = (_A * A.x) + (_B * A.y),
-            k2 = (_C * SA.x) + (_D * SA.y);
-
-            //re the lines parallel? -> no solutions
-            float2 an = normalize(AAN), bn = normalize(BBN);
-            float temp = Mathf.Acos(Mathf.Clamp((an.x * bn.x + an.y * bn.y), -1f, 1f)) * 57.29578f;
-            if (temp == 0f || temp == 180f) { return false; }
-
-            // Are the lines the same line? -> infinite amount of solutions
-            //Pick one point on each line and test if the vector between the points is orthogonal to one of the normals
-            temp = (A.x - SA.x) * AAN.x + (A.y - SA.y) * AAN.y;
-            if (temp < Maths.EPSILON && temp > Maths.NEPSILON) { return false; }
-            
-            intersectPoint = float3(
-                 (_D * k1 - _B * k2) / (_A * _D - _B * _C),
-                 (-_C * k1 + _A * k2) / (_A * _D - _B * _C), 
-                 0f);
-
-            // But we have line segments so we have to check if the intersection point is within the segment
-            if (Maths.IsBetween(intersectPoint, A, B) && Maths.IsBetween(intersectPoint, float3(SA.x, SA.y,0f), float3(SB.x, SB.y,0f)))
-            {
-                isIntersecting = true;
-            }
-
-            return isIntersecting;
+            intersection.x = A.x + u * (B.x - A.x);
+            intersection.y = A.y + u * (B.y - A.y);
+            return true;
         }
 
         /// <summary>
@@ -224,29 +193,20 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public bool IsIntersectingXZ(Segment segment)
         {
-            float2
-            LA = float2(A.x, A.z),
-            LB = float2(B.x, B.z),
+            float2 A2 = float2(segment.A.x, segment.A.z), B2 = float2(segment.B.x, segment.B.z);
 
-            SA = float2(segment.A.x, segment.A.z),
-            SB = float2(segment.B.x, segment.B.z);
+            var d = (B.x - A.x) * (B2.y - A2.y) - (B.z - A.z) * (B2.x - A2.x);
 
-            float denominator = (SB.y - SA.y) * (LB.x - LA.x) - (SB.x - SA.x) * (LB.y - LA.y);
+            if (d == 0.0f)
+                return false;
 
-            //Make sure the denominator is > 0, if not the lines are parallel
-            if (denominator != 0f)
-            {
-                float u_a = ((SB.x - SA.x) * (LA.y - SA.y) - (SB.y - SA.y) * (LA.x - SA.x)) / denominator;
-                float u_b = ((LB.x - LA.x) * (LA.y - SA.y) - (LB.y - LA.y) * (LA.x - SA.x)) / denominator;
+            float u = ((A2.x - A.x) * (B2.y - A2.y) - (A2.y - A.y) * (B2.x - A2.x)) / d;
+            float v = ((A2.x - A.x) * (B.z - A.z) - (A2.y - A.z) * (B.x - A.x)) / d;
 
-                //Is intersecting if u_a and u_b are between 0 and 1
-                if (u_a > 0f && u_a < 1f && u_b > 0f && u_b < 1f)
-                {
-                    return true;
-                }
-            }
+            if (u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f)
+                return false;
 
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -255,58 +215,26 @@ namespace Nebukam.Geom
         /// <param name="segment"></param>
         /// <param name="intersectPoint"></param>
         /// <returns></returns>
-        public bool IsIntersectingXZ(Segment segment, out float3 intersectPoint)
+        public bool IsIntersectingXZ(Segment segment, out float3 intersection)
         {
+            intersection = float3(false);
+            float2 A2 = float2(segment.A.x, segment.A.z), B2 = float2(segment.B.x, segment.B.z);
 
-            intersectPoint = float3(false);
-            bool isIntersecting = false;
+            var d = (B.x - A.x) * (B2.y - A2.y) - (B.z - A.z) * (B2.x - A2.x);
 
-            //3d -> 2d
-            float2
-            LA = float2(A.x, A.z),
-            LB = float2(B.x, B.z),
+            if (d == 0.0f)
+                return false;
 
-            SA = float2(segment.A.x, segment.A.z),
-            SB = float2(segment.B.x, segment.B.z),
+            float u = ((A2.x - A.x) * (B2.y - A2.y) - (A2.y - A.y) * (B2.x - A2.x)) / d;
+            float v = ((A2.x - A.x) * (B.z - A.z) - (A2.y - A.z) * (B.x - A.x)) / d;
 
-            AADir = normalize(float2(LB.x - LA.x, LB.y - LA.y)),
-            BBDir = normalize(float2(SB.x - SA.x, SB.y - SA.y)),
+            if (u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f)
+                return false;
 
-            AAN = float2(-AADir.y, AADir.x),
-            BBN = float2(-BBDir.y, BBDir.x);
-
-            //Step 1: Rewrite the lines to a general form: Ax + By = k1 and Cx + Dy = k2
-            //The normal vector is the A, B
-            float _A = AAN.x, _B = AAN.y, _C = BBN.x, _D = BBN.y,
-
-            //To get k we just use one point on the line
-            k1 = (_A * LA.x) + (_B * LA.y),
-            k2 = (_C * SA.x) + (_D * SA.y);
-
-            //re the lines parallel? -> no solutions
-            float2 an = normalize(AAN), bn = normalize(BBN);
-            float temp = Mathf.Acos(Mathf.Clamp((an.x * bn.x + an.y * bn.y), -1f, 1f)) * 57.29578f;
-            if (temp == 0f || temp == 180f) { return false; }
-
-            // Are the lines the same line? -> infinite amount of solutions
-            //Pick one point on each line and test if the vector between the points is orthogonal to one of the normals
-            temp = (LA.x - SA.x) * AAN.x + (LA.y - SA.y) * AAN.y;
-            if (temp < Maths.EPSILON && temp > Maths.NEPSILON) { return false; }
-            
-            intersectPoint = float3(
-                 (_D * k1 - _B * k2) / (_A * _D - _B * _C),
-                 0f,
-                 (-_C * k1 + _A * k2) / (_A * _D - _B * _C));
-
-            // But we have line segments so we have to check if the intersection point is within the segment
-            if (Maths.IsBetween(intersectPoint, float3(LA.x, LA.y, 0f), float3(LB.x, LB.y, 0f)) && Maths.IsBetween(intersectPoint, float3(SA.x, SA.y, 0f), float3(SB.x, SB.y, 0f)))
-            {
-                isIntersecting = true;
-            }
-
-            return isIntersecting;
+            intersection.x = A.x + u * (B.x - A.x);
+            intersection.z = A.z + u * (B.z - A.z);
+            return true;
         }
-
 
     }
 
