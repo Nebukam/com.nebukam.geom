@@ -29,7 +29,7 @@ namespace Nebukam.Geom
     /// </summary>
     public class DelaunayProcessor : VertexGroupProcessor<DelaunayJob>, ITriadProvider
     {
-        
+
         protected bool m_computeTriadCentroid = false;
         protected NativeList<Triad> m_outputTriangles = new NativeList<Triad>(0, Allocator.Persistent);
         protected NativeList<int> m_outputHullVertices = new NativeList<int>(0, Allocator.Persistent);
@@ -39,12 +39,12 @@ namespace Nebukam.Geom
         /// The IVerticesProvider used during preparation.
         /// </summary>
         public IVerticesProvider verticesProvider { get { return this; } }
-        
+
         /// <summary>
         /// Whether or not computing
         /// </summary>
         public bool computeTriadCentroid { get { return m_computeTriadCentroid; } set { m_computeTriadCentroid = value; } }
-        
+
         /// <summary>
         /// Generated triangulation
         /// </summary>
@@ -70,7 +70,7 @@ namespace Nebukam.Geom
 
         protected override void Apply(ref DelaunayJob job)
         {
-            
+
         }
 
         protected override void Dispose(bool disposing)

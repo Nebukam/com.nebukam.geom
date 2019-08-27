@@ -19,27 +19,28 @@
 // SOFTWARE.
 
 
+using Unity.Burst;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 
 namespace Nebukam.Geom
 {
 
+    [BurstCompile]
     public struct Triad : System.IEquatable<Triad>
     {
 
         public int A, B, C;
-
-        public float3 circumcenter, centroid;
         public float sqRadius;
-        
+        public float3 circumcenter, centroid;
+
         public Triad(int a, int b, int c, float3 cc, float rad)
         {
             A = a;
             B = b;
             C = c;
 
-            centroid = float3(false);
+            centroid = float3(0f);
             circumcenter = cc;
             sqRadius = rad;
         }
@@ -59,10 +60,10 @@ namespace Nebukam.Geom
         {
             int oA = tri.A, oB = tri.B, oC = tri.C;
             int i = 0;
-            if ( A == oA || A == oB || A == oC ) { i++; };
-            if ( B == oA || B == oB || B == oC ) { i++; };
-            if ( C == oA || C == oB || C == oC ) { i++; };
-            return ( i == 2 );
+            if (A == oA || A == oB || A == oC) { i++; };
+            if (B == oA || B == oB || B == oC) { i++; };
+            if (C == oA || C == oB || C == oC) { i++; };
+            return (i == 2);
         }
 
         public bool SharesVertexWith(Triad tri)
@@ -94,11 +95,11 @@ namespace Nebukam.Geom
 
         public static bool operator ==(Triad a, Triad b)
         {
-            return ((a.A == b.A && a.B == b.B && a.C == b.C ) 
-                || (a.A == b.A && a.B == b.C && a.C == b.B) 
-                || (a.A == b.B && a.B == b.A && a.C == b.C) 
-                || (a.A == b.B && a.B == b.C && a.C == b.A) 
-                || (a.A == b.C && a.B == b.A && a.C == b.B) 
+            return ((a.A == b.A && a.B == b.B && a.C == b.C)
+                || (a.A == b.A && a.B == b.C && a.C == b.B)
+                || (a.A == b.B && a.B == b.A && a.C == b.C)
+                || (a.A == b.B && a.B == b.C && a.C == b.A)
+                || (a.A == b.C && a.B == b.A && a.C == b.B)
                 || (a.A == b.C && a.B == b.B && a.C == b.A));
         }
 

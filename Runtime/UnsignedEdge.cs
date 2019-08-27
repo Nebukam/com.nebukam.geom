@@ -18,17 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Unity.Burst;
+
 namespace Nebukam.Geom
 {
 
     /// <summary>
     /// Edge with unsigned HashCode.
     /// </summary>
+    [BurstCompile]
     public struct UnsignedEdge : System.IEquatable<UnsignedEdge>
     {
 
         public int A, B, d, h;
-        
+
         public UnsignedEdge(int a, int b)
         {
             d = 0;
@@ -74,7 +77,7 @@ namespace Nebukam.Geom
             return (e1.A == e2.A && e1.B == e2.B) || (e1.A == e2.B && e1.B == e2.A);
         }
 
-        public bool Equals( UnsignedEdge e)
+        public bool Equals(UnsignedEdge e)
         {
             return (e.A == A && e.B == B) || (e.A == B && e.B == A);
         }

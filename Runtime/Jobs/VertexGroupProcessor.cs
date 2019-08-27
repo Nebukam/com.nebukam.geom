@@ -29,7 +29,7 @@ namespace Nebukam.Geom
 
     public interface IVertexGroupProcessor : IProcessor, IVerticesProvider
     {
-        IVertexGroup vertices { get;  set; }
+        IVertexGroup vertices { get; set; }
     }
 
     public abstract class VertexGroupProcessor<T> : Processor<T>, IVertexGroupProcessor
@@ -66,7 +66,7 @@ namespace Nebukam.Geom
                 m_outputVertices.Add(m_lockedVertices[i].pos);
             }
         }
-        
+
         protected override void InternalUnlock()
         {
 
@@ -79,7 +79,7 @@ namespace Nebukam.Geom
 
             m_vertices = null;
             m_outputVertices.Dispose();
-            
+
         }
 
     }

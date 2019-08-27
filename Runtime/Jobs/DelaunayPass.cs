@@ -67,7 +67,7 @@ namespace Nebukam.Geom
         protected override void Prepare(ref DelaunayJob job, float delta)
         {
 
-            if(!TryGetFirstInGroup(out m_verticesProvider))
+            if (!TryGetFirstInGroup(out m_verticesProvider))
             {
                 throw new System.Exception("No IVerticesProvider in chain !");
             }
@@ -88,7 +88,7 @@ namespace Nebukam.Geom
         {
 
         }
-        
+
         protected override void InternalUnlock()
         {
 

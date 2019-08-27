@@ -18,14 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
-using Nebukam.Utils;
+using Unity.Burst;
 using Unity.Mathematics;
-using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace Nebukam.Geom
 {
+
+    [BurstCompile]
     public struct Segment
     {
 
@@ -34,7 +34,7 @@ namespace Nebukam.Geom
         public float3 A, B;
 
         public Segment(float3 a, float3 b) { A = a; B = b; }
-        public Segment(float3 b) { A = float3(false); B = b; }
+        public Segment(float3 b) { A = float3(0f); B = b; }
 
         /// <summary>
         /// Center point on the segment
@@ -98,7 +98,7 @@ namespace Nebukam.Geom
             }
         }
 
-        
+
         /// <summary>
         /// Return a point at a given percentage from A to B
         /// </summary>
@@ -166,7 +166,7 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public bool IsIntersectingXY(Segment segment, out float3 intersection)
         {
-            intersection = float3(false);
+            intersection = float3(0f);
             float2 A2 = float2(segment.A.x, segment.A.y), B2 = float2(segment.B.x, segment.B.y);
 
             var d = (B.x - A.x) * (B2.y - A2.y) - (B.y - A.y) * (B2.x - A2.x);
@@ -217,7 +217,7 @@ namespace Nebukam.Geom
         /// <returns></returns>
         public bool IsIntersectingXZ(Segment segment, out float3 intersection)
         {
-            intersection = float3(false);
+            intersection = float3(0f);
             float2 A2 = float2(segment.A.x, segment.A.z), B2 = float2(segment.B.x, segment.B.z);
 
             var d = (B.x - A.x) * (B2.y - A2.y) - (B.z - A.z) * (B2.x - A2.x);

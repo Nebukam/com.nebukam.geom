@@ -18,28 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Unity.Burst;
 using Unity.Mathematics;
-using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace Nebukam.Geom
 {
+
+    [BurstCompile]
     public struct Circle
     {
-        
+
+        public float radius;
         public float3 center;
         public float3 normal;
         public float3 dir;
-        public float radius;
 
         public Circle(float r = 1f)
-            : this(float3(0f,0f,0f), r, float3(0f,1f,0f), float3(0f,0f,1f))
+            : this(float3(0f, 0f, 0f), r, float3(0f, 1f, 0f), float3(0f, 0f, 1f))
         {
 
         }
 
         public Circle(float3 c, float r)
-            : this(c, r, float3(0f,1f,0f), float3(0f,0f,1f))
+            : this(c, r, float3(0f, 1f, 0f), float3(0f, 0f, 1f))
         {
 
         }

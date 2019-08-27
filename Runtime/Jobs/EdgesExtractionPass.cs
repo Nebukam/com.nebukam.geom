@@ -39,11 +39,11 @@ namespace Nebukam.Geom
         /// The ITriadProvider used during preparation.
         /// </summary>
         public ITriadProvider triadProvider { get { return m_triadProvider; } }
-        
+
         public NativeList<UnsignedEdge> outputEdges { get { return m_outputEdges; } }
 
         protected override void Prepare(ref EdgesExtractionJob job, float delta)
-        {            
+        {
 
             if (!TryGetFirstInGroup(out m_triadProvider))
             {
@@ -63,12 +63,12 @@ namespace Nebukam.Geom
 
         protected override void InternalLock()
         {
-            
+
         }
 
         protected override void InternalUnlock()
         {
-            
+
         }
 
         protected override void Dispose(bool disposing)

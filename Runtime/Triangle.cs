@@ -18,12 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Unity.Burst;
 using Unity.Mathematics;
 
 namespace Nebukam.Geom
 {
-
-    public struct Triangle 
+    [BurstCompile]
+    public struct Triangle
     {
 
         public static Triangle zero = new Triangle(float3.zero, float3.zero, float3.zero);
@@ -34,19 +35,20 @@ namespace Nebukam.Geom
         public Segment AC { get { return new Segment(A, C); } }
         public Segment BC { get { return new Segment(B, C); } }
 
-        public float3 normal {
+        public float3 normal
+        {
             get
             {
                 float lhsx = B.x - A.x, lhsy = B.y - A.y, lhsz = B.z - A.z;
                 float rhsx = C.x - A.x, rhsy = C.y - A.y, rhsz = C.z - A.z;
 
                 return new float3(
-                    lhsy * rhsz - lhsz * rhsy, 
-                    lhsz * rhsx - lhsx * rhsz, 
+                    lhsy * rhsz - lhsz * rhsy,
+                    lhsz * rhsx - lhsx * rhsz,
                     lhsx * rhsy - lhsy * rhsx);
             }
         }
-        
+
         public Triangle(float3 _A, float3 _B, float3 _C)
         {
             A = _A;

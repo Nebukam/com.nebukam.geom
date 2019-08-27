@@ -28,13 +28,13 @@ namespace Nebukam.Geom
     [BurstCompile]
     public struct EdgesExtractionJob : IJob
     {
-        
+
         [ReadOnly]
         public NativeList<Triad> inputTriangles;
-        
+
         public NativeList<UnsignedEdge> outputEdges;
 
-        
+
         public void Execute()
         {
 
@@ -47,7 +47,7 @@ namespace Nebukam.Geom
             int hAB, hBC, hCA;
             UnsignedEdge AB, BC, CA;
             Triad triad;
-            
+
             for (int i = 0; i < triCount; i++)
             {
 
@@ -93,6 +93,6 @@ namespace Nebukam.Geom
 
 
         }
-        
+
     }
 }

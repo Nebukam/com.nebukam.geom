@@ -65,9 +65,9 @@ namespace Nebukam.Geom
 
         protected override void Apply(ref Unemployed job)
         {
-            
+
         }
-        
+
         protected override void InternalUnlock()
         {
 

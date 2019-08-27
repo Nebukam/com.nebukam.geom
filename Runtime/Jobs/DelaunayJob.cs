@@ -40,7 +40,7 @@ namespace Nebukam.Geom
         public NativeList<Triad> outputTriangles;
         public NativeList<int> outputHullVertices;
         public NativeHashMap<int, UnsignedEdge> outputUnorderedHullEdges;
-        
+
         public bool computeTriadCentroid;
 
         public void Execute()
@@ -152,7 +152,7 @@ namespace Nebukam.Geom
 
                             if (inc)
                             {
-                                EE.d ++;
+                                EE.d++;
                                 hole[ie] = EE;
                             }
                         }
@@ -183,7 +183,7 @@ namespace Nebukam.Geom
                 #region new triangles
 
                 eCount = hole.Length;
-                
+
                 for (int e = 0; e < eCount; e++)
                 {
                     edge = hole[e];
@@ -203,7 +203,7 @@ namespace Nebukam.Geom
             }
 
             #region wrap up
-            
+
             //Remove all triangles with a vertex superior to initial vertice count 
             //as they are linked to initial 4 boundaries vertices
             triCount = outputTriangles.Length;
@@ -249,9 +249,9 @@ namespace Nebukam.Geom
                     A = triad.A; B = triad.B; C = triad.C;
                     extraIndex = -1;
 
-                    if (A >= vCount){ extraIndex = A; }
-                    else if(B >= vCount){ extraIndex = B; }
-                    else if (C >= vCount){ extraIndex = C; }
+                    if (A >= vCount) { extraIndex = A; }
+                    else if (B >= vCount) { extraIndex = B; }
+                    else if (C >= vCount) { extraIndex = C; }
 
                     if (extraIndex != -1)
                     {
@@ -266,7 +266,7 @@ namespace Nebukam.Geom
                     t++;
                 }
             }
-            
+
             outputTriangles.ResizeUninitialized(t);
 
             #endregion

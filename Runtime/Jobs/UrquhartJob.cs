@@ -64,7 +64,7 @@ namespace Nebukam.Geom
                 BC = distancesq(vB, vC);
                 CA = distancesq(vC, vA);
 
-                if(AB > BC && AB > CA)
+                if (AB > BC && AB > CA)
                 {
                     edge = new UnsignedEdge(A, B);
                 }

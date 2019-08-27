@@ -57,17 +57,17 @@ namespace Nebukam.Geom
         /// Voronoi sites
         /// </summary>
         public NativeList<float3> outputVertices { get { return m_outputVertices; } }
-        
+
         /// <summary>
         /// Neighbors site for each input vertices
         /// </summary>
         public NativeMultiHashMap<int, int> outputSites { get { return m_outputSites; } }
-        
+
         /// <summary>
         /// Voronoi edges
         /// </summary>
         public NativeList<UnsignedEdge> outputEdges { get { return m_outputEdges; } }
-        
+
         /// <summary>
         /// Vertices provider used for the Voronoi pass
         /// </summary>
@@ -84,12 +84,12 @@ namespace Nebukam.Geom
         protected override void Prepare(ref VoronoiJob job, float delta)
         {
 
-            if(!TryGetFirstInGroup(out m_verticesProvider)
+            if (!TryGetFirstInGroup(out m_verticesProvider)
                 || !TryGetFirstInGroup(out m_triadProvider))
             {
                 throw new System.Exception("Missing providers");
             }
-            
+
             //Clear previously built triangles
             m_outputVertices.Clear();
             m_outputSites.Clear();
@@ -114,7 +114,7 @@ namespace Nebukam.Geom
 
         }
 
-        
+
 
         protected override void Dispose(bool disposing)
         {

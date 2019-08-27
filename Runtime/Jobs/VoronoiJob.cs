@@ -58,7 +58,7 @@ namespace Nebukam.Geom
             NativeList<int> neighbors = new NativeList<int>(0, Allocator.Temp);
             float weight = clamp(centroidWeight, 0f, 1f);
 
-            if(weight == 0f)
+            if (weight == 0f)
             {
                 for (int i = 0; i < siteCount; i++)
                 {
@@ -71,12 +71,12 @@ namespace Nebukam.Geom
                     connectedTriangles.Add(new UnsignedEdge(C, A), i);
                 }
             }
-            else if(weight == 1f)
+            else if (weight == 1f)
             {
                 for (int i = 0; i < siteCount; i++)
                 {
                     triad = inputTriangles[i];
-                    A = triad.A; B = triad.B; C = triad.C;                    
+                    A = triad.A; B = triad.B; C = triad.C;
                     outputVertices.Add((inputVertices[A] + inputVertices[B] + inputVertices[C]) / 3f);
 
                     connectedTriangles.Add(new UnsignedEdge(A, B), i);
@@ -101,7 +101,7 @@ namespace Nebukam.Geom
                     connectedTriangles.Add(new UnsignedEdge(C, A), i);
                 }
             }
-            
+
             for (int i = 0; i < siteCount; i++)
             {
                 triad = inputTriangles[i];
@@ -120,10 +120,10 @@ namespace Nebukam.Geom
                 edge = new UnsignedEdge(C, A);
                 connectedTriangles.PushValues(ref edge, ref neighbors);
 
-                for (int t = 0; t < neighbors.Length; t++ )
+                for (int t = 0; t < neighbors.Length; t++)
                 {
                     Ti = neighbors[t];
-                    if(Ti == i) { continue; }
+                    if (Ti == i) { continue; }
 
                     edge = new UnsignedEdge(Ti, i);
 

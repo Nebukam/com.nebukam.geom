@@ -31,13 +31,13 @@ namespace Nebukam.Geom
         float3 pivot { get; set; }
         float3 rotation { get; set; }
     }
-    
+
     public class WorldVertexGroup<T> : VertexGroup<T>, IWorldVertexGroup
         where T : WorldVertex, IVertex, new()
     {
 
-        protected float3 m_pivot = float3(false);
-        protected float3 m_rotation = float3(false);
+        protected float3 m_pivot = float3(0f);
+        protected float3 m_rotation = float3(0f);
 
         public float3 pivot { get { return m_pivot; } set { m_pivot = value; } }
         public float3 rotation { get { return m_rotation; } set { m_rotation = value; } }

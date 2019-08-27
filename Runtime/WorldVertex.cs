@@ -29,13 +29,13 @@ namespace Nebukam.Geom
         /// <summary>
         /// local, anchored position
         /// </summary>
-        public float3 local = float3(false);
+        public float3 local = float3(0f);
 
         /// <summary>
         /// transformed anchor position
         /// Usually updated by a parent AnchorGroup
         /// </summary>
-        public float3 world = float3(false);
+        public float3 world = float3(0f);
 
     }
 }

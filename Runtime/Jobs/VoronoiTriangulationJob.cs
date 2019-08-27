@@ -29,13 +29,14 @@ using static Unity.Mathematics.math;
 namespace Nebukam.Geom
 {
 
+    [BurstCompile]
     internal struct IndexedVertex
     {
         public int index;
         public float angle;
     }
 
-
+    [BurstCompile]
     internal struct SortIndexedVertex : IComparer<IndexedVertex>
     {
         public int Compare(IndexedVertex a, IndexedVertex b)
@@ -85,10 +86,10 @@ namespace Nebukam.Geom
             outputTriangles.Capacity = sCount * 3;
 
             //Merge base vertices and voronoi sites in a single list
-            for(int i = 0; i < vCount; i++) { outputVertices.Add(inputVertices[i]); }
-            for(int i = 0; i < sCount; i++) { outputVertices.Add(inputSitesVertices[i]); }
+            for (int i = 0; i < vCount; i++) { outputVertices.Add(inputVertices[i]); }
+            for (int i = 0; i < sCount; i++) { outputVertices.Add(inputSitesVertices[i]); }
 
-            for(int i = 0; i < vCount; i++)
+            for (int i = 0; i < vCount; i++)
             {
 
                 //A being the base vertice
@@ -108,7 +109,8 @@ namespace Nebukam.Geom
                 {
                     nIndex = neighbors[v];
                     pt = inputSitesVertices[nIndex] - center;
-                    IndexedVertex iv = new IndexedVertex(){
+                    IndexedVertex iv = new IndexedVertex()
+                    {
                         index = vCount + nIndex,
                         angle = plane == AxisPair.XY ? atan2(pt.y, pt.x) : atan2(pt.z, pt.x)
                     };
@@ -120,31 +122,31 @@ namespace Nebukam.Geom
                 for (int v = 0; v < tCount; v++)
                 {
                     B = neighborsList[v].index;
-                    C = v+1;
+                    C = v + 1;
 
-                    if(C >= tCount)
+                    if (C >= tCount)
                     {
                         C = neighborsList[0].index;
                     }
                     else
                     {
-                        C = neighborsList[v+1].index;
+                        C = neighborsList[v + 1].index;
                     }
 
                     if (check)
                     {
-                        if (inputUnorderedHullEdges.TryGetValue(B-vCount, out edge)
-                        || inputUnorderedHullEdges.TryGetValue(C-vCount, out edge))
+                        if (inputUnorderedHullEdges.TryGetValue(B - vCount, out edge)
+                        || inputUnorderedHullEdges.TryGetValue(C - vCount, out edge))
                         {
                             continue;
                         }
                     }
-                    
 
-                    triad = new Triad(A, B, C, float3(false), 0f);
+
+                    triad = new Triad(A, B, C, float3(0f), 0f);
                     outputTriangles.Add(triad);
                 }
-                
+
             }
 
         }
