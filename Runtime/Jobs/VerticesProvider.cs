@@ -34,8 +34,8 @@ namespace Nebukam.Geom
     public class VerticesProvider : Processor<Unemployed>, IVerticesProvider
     {
 
-        protected IVertexGroup m_vertices = null;
-        public IVertexGroup vertices { get { return m_vertices; } set { m_vertices = value; } }
+        protected IVertexGroup<IVertex> m_vertices = null;
+        public IVertexGroup<IVertex> vertices { get { return m_vertices; } set { m_vertices = value; } }
 
         protected List<IVertex> lockedVertices = new List<IVertex>();
 

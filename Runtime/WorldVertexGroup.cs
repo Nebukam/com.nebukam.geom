@@ -25,14 +25,15 @@ using static Unity.Mathematics.math;
 namespace Nebukam.Geom
 {
 
-    public interface IWorldVertexGroup : IVertexGroup
+    public interface IWorldVertexGroup<out V> : IVertexGroup<V>
+        where V : IVertex
     {
         void Update();
         float3 pivot { get; set; }
         float3 rotation { get; set; }
     }
 
-    public class WorldVertexGroup<T> : VertexGroup<T>, IWorldVertexGroup
+    public class WorldVertexGroup<T> : VertexGroup<T>, IWorldVertexGroup<T>
         where T : WorldVertex, IVertex, new()
     {
 

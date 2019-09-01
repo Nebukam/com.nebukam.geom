@@ -29,15 +29,15 @@ namespace Nebukam.Geom
 
     public interface IVertexGroupProcessor : IProcessor, IVerticesProvider
     {
-        IVertexGroup vertices { get; set; }
+        IVertexGroup<IVertex> vertices { get; set; }
     }
 
     public abstract class VertexGroupProcessor<T> : Processor<T>, IVertexGroupProcessor
         where T : struct, IJob
     {
 
-        protected IVertexGroup m_vertices = null;
-        public IVertexGroup vertices { get { return m_vertices; } set { m_vertices = value; } }
+        protected IVertexGroup<IVertex> m_vertices = null;
+        public IVertexGroup<IVertex> vertices { get { return m_vertices; } set { m_vertices = value; } }
 
         protected List<IVertex> m_lockedVertices = new List<IVertex>();
 
