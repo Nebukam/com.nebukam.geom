@@ -134,9 +134,10 @@ namespace Nebukam.Geom
 
         }
 
+        #region IsIntersecting
+
         /// <summary>
         /// Check if this segment is intersecting with another given segment, on the XY (2D) plane,
-        /// Faster alternative, since the intersection point is not required.
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
@@ -187,7 +188,6 @@ namespace Nebukam.Geom
 
         /// <summary>
         /// Check if this segment is intersecting with another given segment, on the XZ plane
-        /// Faster alternative, since the intersection point is not required.
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
@@ -235,6 +235,124 @@ namespace Nebukam.Geom
             intersection.z = A.z + u * (B.z - A.z);
             return true;
         }
+
+        /// <summary>
+        /// Check if this segment is intersecting with another given segment, on the given plane
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public bool IsIntersecting(Segment segment, AxisPair axis)
+        {
+            return axis == AxisPair.XY ? IsIntersectingXY(segment) : IsIntersectingXZ(segment);
+        }
+
+        /// <summary>
+        /// Check if this segment is intersecting with another given segment, on the given plane
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="axis"></param>
+        /// <param name="intersection"></param>
+        /// <returns></returns>
+        public bool IsIntersecting(Segment segment, out float3 intersection, AxisPair axis)
+        {
+            return axis == AxisPair.XY ? 
+                IsIntersectingXY(segment, out intersection) : 
+                IsIntersectingXZ(segment, out intersection);
+        }
+
+        #endregion
+
+        #region IsBetween
+
+        /// <summary>
+        /// Is a point c between a and b?
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public bool IsBetweenXY(float3 pt)
+        {
+
+            float2 ab = float2(B.x - A.x, B.y - A.y);//Entire line segment
+            float2 ac = float2(pt.x - A.x, pt.y - A.y);//The intersection and the first point
+
+            float dot = ab.x * ac.x + ab.y * ac.y;
+
+            //If the vectors are pointing in the same direction = dot product is positive
+            if (dot <= 0f) { return false; }
+
+            float abm = ab.x * ab.x + ab.y * ab.y;
+            float acm = ac.x * ac.x + ac.y * ac.y;
+
+            //If the length of the vector between the intersection and the first point is smaller than the entire line
+            return (abm >= acm);
+        }
+
+        /// <summary>
+        /// Is a point c between a and b?
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public bool IsBetweenXZ(float3 pt)
+        {
+            float2 ab = float2(B.x - A.x, B.z - A.z);//Entire line segment
+            float2 ac = float2(pt.x - A.x, pt.z - A.z);//The intersection and the first point
+
+            float dot = ab.x * ac.x + ab.y * ac.y;
+
+            //If the vectors are pointing in the same direction = dot product is positive
+            if (dot <= 0f) { return false; }
+
+            float abm = ab.x * ab.x + ab.y * ab.y;
+            float acm = ac.x * ac.x + ac.y * ac.y;
+
+            //If the length of the vector between the intersection and the first point is smaller than the entire line
+            return (abm >= acm);
+        }
+
+        /// <summary>
+        /// Is a point c between a and b?
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="pt"></param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public bool IsBetween(float3 pt, AxisPair axis)
+        {
+            return axis == AxisPair.XY ? 
+                IsBetweenXY(pt) : 
+                IsBetweenXZ(pt);
+        }
+
+        // <summary>
+        /// Is a point c between a and b?
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public bool IsBetween(float3 pt)
+        {
+
+            float3 ab = float3(B.x - A.x, B.y - A.y, B.z - A.z);//Entire line segment
+            float3 ac = float3(pt.x - A.x, pt.y - A.y, pt.z - A.z);//The intersection and the first point
+
+            float dot = ab.x * ac.x + ab.y * ac.y + ab.z * ac.z;
+
+            //If the vectors are pointing in the same direction = dot product is positive
+            if (dot <= 0f) { return false; }
+
+            float abm = ab.x * ab.x + ab.y * ab.y + ab.z * ab.z;
+            float acm = ac.x * ac.x + ac.y * ac.y + ac.z * ac.z;
+
+            //If the length of the vector between the intersection and the first point is smaller than the entire line
+            return (abm >= acm);
+        }
+
+        #endregion
 
     }
 
