@@ -32,7 +32,7 @@ namespace Nebukam.Geom
         [ReadOnly]
         public NativeList<Triad> inputTriangles;
 
-        public NativeList<UnsignedEdge> outputEdges;
+        public NativeList<UIntPair> outputEdges;
 
 
         public void Execute()
@@ -45,7 +45,7 @@ namespace Nebukam.Geom
 
             bool bAB = false, bBC = false, bCA = false, r;
             int hAB, hBC, hCA;
-            UnsignedEdge AB, BC, CA;
+            UIntPair AB, BC, CA;
             Triad triad;
 
             for (int i = 0; i < triCount; i++)
@@ -54,9 +54,9 @@ namespace Nebukam.Geom
                 triad = inputTriangles[i];
 
                 A = triad.A; B = triad.B; C = triad.C;
-                AB = new UnsignedEdge(A, B);
-                BC = new UnsignedEdge(B, C);
-                CA = new UnsignedEdge(C, A);
+                AB = new UIntPair(A, B);
+                BC = new UIntPair(B, C);
+                CA = new UIntPair(C, A);
 
                 hAB = AB.GetHashCode();
                 hBC = BC.GetHashCode();

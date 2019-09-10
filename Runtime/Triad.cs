@@ -45,16 +45,16 @@ namespace Nebukam.Geom
             sqRadius = rad;
         }
 
-        public UnsignedEdge OppositeEdge(int v)
+        public UIntPair OppositeEdge(int v)
         {
-            return v == A ? new UnsignedEdge(B, C)
-                : v == B ? new UnsignedEdge(A, C)
-                : new UnsignedEdge(A, B);
+            return v == A ? new UIntPair(B, C)
+                : v == B ? new UIntPair(A, C)
+                : new UIntPair(A, B);
         }
 
-        public UnsignedEdge AB { get { return new UnsignedEdge(A, B); } }
-        public UnsignedEdge BC { get { return new UnsignedEdge(B, C); } }
-        public UnsignedEdge CA { get { return new UnsignedEdge(C, A); } }
+        public UIntPair AB { get { return new UIntPair(A, B); } }
+        public UIntPair BC { get { return new UIntPair(B, C); } }
+        public UIntPair CA { get { return new UIntPair(C, A); } }
 
         public bool SharesEdgeWith(Triad tri)
         {

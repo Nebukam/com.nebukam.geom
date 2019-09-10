@@ -38,9 +38,9 @@ namespace Nebukam.Geom
         [ReadOnly]
         public NativeList<int> inputHullVertices;
         [ReadOnly]
-        public NativeHashMap<int, UnsignedEdge> inputUnorderedHull;
+        public NativeHashMap<int, UIntPair> inputUnorderedHull;
 
-        public NativeList<UnsignedEdge> outputEdges;
+        public NativeList<UIntPair> outputEdges;
         public NativeMultiHashMap<int, int> outputConnections;
 
         public void Execute()
@@ -49,11 +49,11 @@ namespace Nebukam.Geom
             int A, B, C, vCount = inputVertices.Length, triCount = inputTriangles.Length;
             float3 vA, vB, vC;
             float AB, BC, CA;
-            UnsignedEdge edge;
+            UIntPair edge;
             Triad triad;
             bool tooLong;
-            NativeHashMap<UnsignedEdge, bool> longuestEdges = new NativeHashMap<UnsignedEdge, bool>(triCount * 3, Allocator.Temp);
-            NativeHashMap<UnsignedEdge, bool> uniqueEdges = new NativeHashMap<UnsignedEdge, bool>(triCount * 3, Allocator.Temp);
+            NativeHashMap<UIntPair, bool> longuestEdges = new NativeHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
+            NativeHashMap<UIntPair, bool> uniqueEdges = new NativeHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
 
             for (int i = 0; i < triCount; i++)
             {
@@ -66,15 +66,15 @@ namespace Nebukam.Geom
 
                 if (AB > BC && AB > CA)
                 {
-                    edge = new UnsignedEdge(A, B);
+                    edge = new UIntPair(A, B);
                 }
                 else if (BC > AB && BC > CA)
                 {
-                    edge = new UnsignedEdge(B, C);
+                    edge = new UIntPair(B, C);
                 }
                 else// if (CA > AB && CA > BC)
                 {
-                    edge = new UnsignedEdge(C, A);
+                    edge = new UIntPair(C, A);
                 }
 
                 longuestEdges.TryAdd(edge, true);
@@ -86,30 +86,30 @@ namespace Nebukam.Geom
                 triad = inputTriangles[i];
                 A = triad.A; B = triad.B; C = triad.C;
 
-                edge = new UnsignedEdge(A, B);
+                edge = new UIntPair(A, B);
                 if (!longuestEdges.TryGetValue(edge, out tooLong)
                     && !uniqueEdges.TryGetValue(edge, out tooLong))
                 {
-                    outputConnections.Add(edge.B, edge.A);
-                    outputConnections.Add(edge.A, edge.B);
+                    outputConnections.Add(edge.y, edge.x);
+                    outputConnections.Add(edge.x, edge.y);
                     outputEdges.Add(edge);
                 }
 
-                edge = new UnsignedEdge(B, C);
+                edge = new UIntPair(B, C);
                 if (!longuestEdges.TryGetValue(edge, out tooLong)
                     && !uniqueEdges.TryGetValue(edge, out tooLong))
                 {
-                    outputConnections.Add(edge.B, edge.A);
-                    outputConnections.Add(edge.A, edge.B);
+                    outputConnections.Add(edge.y, edge.x);
+                    outputConnections.Add(edge.x, edge.y);
                     outputEdges.Add(edge);
                 }
 
-                edge = new UnsignedEdge(C, A);
+                edge = new UIntPair(C, A);
                 if (!longuestEdges.TryGetValue(edge, out tooLong)
                 && !uniqueEdges.TryGetValue(edge, out tooLong))
                 {
-                    outputConnections.Add(edge.B, edge.A);
-                    outputConnections.Add(edge.A, edge.B);
+                    outputConnections.Add(edge.y, edge.x);
+                    outputConnections.Add(edge.x, edge.y);
                     outputEdges.Add(edge);
                 }
             }

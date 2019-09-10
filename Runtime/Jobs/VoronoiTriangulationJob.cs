@@ -56,7 +56,7 @@ namespace Nebukam.Geom
         [ReadOnly]
         public NativeMultiHashMap<int, int> inputSites; //Key is input vertice, Values are connected Sites index
         [ReadOnly]
-        public NativeHashMap<int, UnsignedEdge> inputUnorderedHullEdges;
+        public NativeHashMap<int, UIntPair> inputUnorderedHullEdges;
         public AxisPair plane;
 
         public bool computeTriadCentroid;
@@ -64,7 +64,7 @@ namespace Nebukam.Geom
         public NativeList<float3> outputVertices;
         public NativeList<Triad> outputTriangles;
         public NativeList<int> outputHullVertices;
-        public NativeHashMap<int, UnsignedEdge> outputUnorderedHullEdges;
+        public NativeHashMap<int, UIntPair> outputUnorderedHullEdges;
 
 
         public void Execute()
@@ -76,7 +76,7 @@ namespace Nebukam.Geom
             float3 center, pt;
             NativeList<int> neighbors = new NativeList<int>(10, Allocator.Temp);
             NativeArray<IndexedVertex> neighborsList = new NativeArray<IndexedVertex>(0, Allocator.Temp);
-            UnsignedEdge edge;
+            UIntPair edge;
             bool check = false;
 
             outputVertices.Clear();

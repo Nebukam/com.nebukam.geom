@@ -39,14 +39,14 @@ namespace Nebukam.Geom
         public NativeList<float3> inputVertices;
         public NativeList<Triad> outputTriangles;
         public NativeList<int> outputHullVertices;
-        public NativeHashMap<int, UnsignedEdge> outputUnorderedHullEdges;
+        public NativeHashMap<int, UIntPair> outputUnorderedHullEdges;
 
         public bool computeTriadCentroid;
 
         public void Execute()
         {
             outputTriangles.Clear();
-            NativeList<UnsignedEdge> hole = new NativeList<UnsignedEdge>(20, Allocator.Temp);
+            NativeList<UIntPair> hole = new NativeList<UIntPair>(20, Allocator.Temp);
 
             float m = 100f;
             float3 V, vA, vB, vC, bA, bB, bC, centroid;
@@ -103,7 +103,7 @@ namespace Nebukam.Geom
 
             int triCount, eCount = 0, t = 0;
             bool bAB = false, bBC = false, bCA = false, inc = false;
-            UnsignedEdge edge, AB, BC, CA, EE;
+            UIntPair edge, AB, BC, CA, EE;
 
             for (int index = 0; index < vCount; index++)
             {
@@ -129,9 +129,9 @@ namespace Nebukam.Geom
                         //This is a bad triangle.
                         //Add edges forming the triangle to the list of hole boundaries
                         A = triad.A; B = triad.B; C = triad.C;
-                        AB = new UnsignedEdge(A, B);
-                        BC = new UnsignedEdge(B, C);
-                        CA = new UnsignedEdge(C, A);
+                        AB = new UIntPair(A, B);
+                        BC = new UIntPair(B, C);
+                        CA = new UIntPair(C, A);
 
                         #region Loop
 
@@ -144,7 +144,7 @@ namespace Nebukam.Geom
                             //if (EE.d != 0) { continue; }
 
                             inc = false;
-                            iA = EE.A; iB = EE.B;
+                            iA = EE.x; iB = EE.y;
 
                             if (!bAB && ((iA == A && iB == B) || (iA == B && iB == A))) { inc = bAB = true; }
                             else if (!bBC && ((iA == B && iB == C) || (iA == C && iB == B))) { inc = bBC = true; }
@@ -188,7 +188,7 @@ namespace Nebukam.Geom
                 {
                     edge = hole[e];
                     if (edge.d != 0) { continue; }
-                    A = edge.A; B = edge.B;
+                    A = edge.x; B = edge.y;
                     vA = vertices[A]; vB = vertices[B];
 
                     Triad(out triad, index, A, B, ref vertices);
@@ -209,7 +209,7 @@ namespace Nebukam.Geom
             triCount = outputTriangles.Length;
             t = 0;
             int extraIndex = -1;
-            UnsignedEdge hullEdge;
+            UIntPair hullEdge;
 
             if (computeTriadCentroid)
             {
@@ -227,8 +227,8 @@ namespace Nebukam.Geom
                     {
                         //Add opposite edge to unordered hull
                         hullEdge = triad.OppositeEdge(extraIndex).ascending;
-                        outputUnorderedHullEdges.TryAdd(hullEdge.A, hullEdge);
-                        outputHullVertices.Add(hullEdge.A);
+                        outputUnorderedHullEdges.TryAdd(hullEdge.x, hullEdge);
+                        outputHullVertices.Add(hullEdge.x);
                         continue;
                     }
 
@@ -257,8 +257,8 @@ namespace Nebukam.Geom
                     {
                         //Add opposite edge to unordered hull
                         hullEdge = triad.OppositeEdge(extraIndex).ascending;
-                        outputUnorderedHullEdges.TryAdd(hullEdge.A, hullEdge);
-                        outputHullVertices.Add(hullEdge.A);
+                        outputUnorderedHullEdges.TryAdd(hullEdge.x, hullEdge);
+                        outputHullVertices.Add(hullEdge.x);
                         continue;
                     }
 

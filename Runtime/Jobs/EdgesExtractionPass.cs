@@ -33,14 +33,14 @@ namespace Nebukam.Geom
 
         protected ITriadProvider m_triadProvider = null;
         protected NativeList<Triad> m_inputTriangles;
-        protected NativeList<UnsignedEdge> m_outputEdges = new NativeList<UnsignedEdge>(0, Allocator.Persistent);
+        protected NativeList<UIntPair> m_outputEdges = new NativeList<UIntPair>(0, Allocator.Persistent);
 
         /// <summary>
         /// The ITriadProvider used during preparation.
         /// </summary>
         public ITriadProvider triadProvider { get { return m_triadProvider; } }
 
-        public NativeList<UnsignedEdge> outputEdges { get { return m_outputEdges; } }
+        public NativeList<UIntPair> outputEdges { get { return m_outputEdges; } }
 
         protected override void Prepare(ref EdgesExtractionJob job, float delta)
         {

@@ -39,13 +39,13 @@ namespace Nebukam.Geom
         protected IVerticesProvider m_verticesProvider = null;
         protected ITriadProvider m_triadProvider = null;
 
-        protected NativeList<UnsignedEdge> m_outputEdges = new NativeList<UnsignedEdge>(0, Allocator.Persistent);
+        protected NativeList<UIntPair> m_outputEdges = new NativeList<UIntPair>(0, Allocator.Persistent);
         protected NativeMultiHashMap<int, int> m_outputConnections = new NativeMultiHashMap<int, int>(0, Allocator.Persistent);
 
         /// <summary>
         /// Voronoi edges
         /// </summary>
-        public NativeList<UnsignedEdge> outputEdges { get { return m_outputEdges; } }
+        public NativeList<UIntPair> outputEdges { get { return m_outputEdges; } }
 
         /// <summary>
         /// Alternative edge representation

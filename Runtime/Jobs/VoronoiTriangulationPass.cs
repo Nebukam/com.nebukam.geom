@@ -36,13 +36,13 @@ namespace Nebukam.Geom
         protected NativeList<float3> m_outputVertices = new NativeList<float3>(0, Allocator.Persistent);
         protected NativeList<Triad> m_outputTriangles = new NativeList<Triad>(0, Allocator.Persistent);
         protected NativeList<int> m_outputHullVertices = new NativeList<int>(0, Allocator.Persistent);
-        protected NativeHashMap<int, UnsignedEdge> m_outputUnorderedHull = new NativeHashMap<int, UnsignedEdge>(0, Allocator.Persistent);
+        protected NativeHashMap<int, UIntPair> m_outputUnorderedHull = new NativeHashMap<int, UIntPair>(0, Allocator.Persistent);
 
         public NativeList<float3> outputVertices { get { return m_outputVertices; } }
         public bool computeTriadCentroid { get { return m_computeTriadCentroid; } set { m_computeTriadCentroid = value; } }
         public NativeList<Triad> outputTriangles { get { return m_outputTriangles; } }
         public NativeList<int> outputHullVertices { get { return m_outputHullVertices; } }
-        public NativeHashMap<int, UnsignedEdge> outputUnorderedHull { get { return m_outputUnorderedHull; } }
+        public NativeHashMap<int, UIntPair> outputUnorderedHull { get { return m_outputUnorderedHull; } }
 
         public IVerticesProvider verticesProvider { get { return m_verticesProvider; } }
         public IVoronoiProvider voronoiProvider { get { return m_voronoiProvider; } }

@@ -44,7 +44,7 @@ namespace Nebukam.Geom
 
         protected NativeList<float3> m_outputVertices = new NativeList<float3>(0, Allocator.Persistent);
         protected NativeMultiHashMap<int, int> m_outputSites = new NativeMultiHashMap<int, int>(0, Allocator.Persistent);
-        protected NativeList<UnsignedEdge> m_outputEdges = new NativeList<UnsignedEdge>(0, Allocator.Persistent);
+        protected NativeList<UIntPair> m_outputEdges = new NativeList<UIntPair>(0, Allocator.Persistent);
 
         /// <summary>
         /// Weight of the centroid vs circumcenter when determining voronoi site position.
@@ -66,7 +66,7 @@ namespace Nebukam.Geom
         /// <summary>
         /// Voronoi edges
         /// </summary>
-        public NativeList<UnsignedEdge> outputEdges { get { return m_outputEdges; } }
+        public NativeList<UIntPair> outputEdges { get { return m_outputEdges; } }
 
         /// <summary>
         /// Vertices provider used for the Voronoi pass

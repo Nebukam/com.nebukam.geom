@@ -31,7 +31,7 @@ namespace Nebukam.Geom.Algorithms
         private const float m = 100f;
         private const int extraVCount = 3;
         private static List<Vertex> vertices;
-        private static List<UnsignedEdge> hole = new List<UnsignedEdge>();
+        private static List<UIntPair> hole = new List<UIntPair>();
         private static Vertex bA = new Vertex(), bB = new Vertex(), bC = new Vertex(), bD = new Vertex();
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Nebukam.Geom.Algorithms
         public static void Process(
             List<Vertex> inputVertices, 
             List<Triad> outputTriangles, 
-            List<UnsignedEdge> outputEdges = null)
+            List<UIntPair> outputEdges = null)
         {
             
             vertices = inputVertices;
@@ -106,7 +106,7 @@ namespace Nebukam.Geom.Algorithms
 
             int triCount, eCount = 0, t = 0;
             bool bAB = false, bBC = false, bCA = false, inc = false;
-            UnsignedEdge edge, AB, BC, CA, EE;
+            UIntPair edge, AB, BC, CA, EE;
 
             for (int index = 0; index < vCount; index++)
             {
@@ -133,9 +133,9 @@ namespace Nebukam.Geom.Algorithms
                         //This is a bad triangle.
                         //Add edges forming the triangle to the list of hole boundaries
                         A = triad.A; B = triad.B; C = triad.C;
-                        AB = new UnsignedEdge(A, B);
-                        BC = new UnsignedEdge(B, C);
-                        CA = new UnsignedEdge(C, A);
+                        AB = new UIntPair(A, B);
+                        BC = new UIntPair(B, C);
+                        CA = new UIntPair(C, A);
 
                         #region Loop
 
@@ -146,7 +146,7 @@ namespace Nebukam.Geom.Algorithms
                             EE = hole[ie];
                             
                             inc = false;
-                            iA = EE.A; iB = EE.B;
+                            iA = EE.x; iB = EE.y;
 
                             if (!bAB && ((iA == A && iB == B) || (iA == B && iB == A))) { inc = bAB = true; }
                             else if (!bBC && ((iA == B && iB == C) || (iA == C && iB == B))) { inc = bBC = true; }
@@ -154,7 +154,7 @@ namespace Nebukam.Geom.Algorithms
 
                             if (inc)
                             {
-                                EE.d = EE.d + 1;
+                                EE.d++;//= EE.d + 1;
                                 hole[ie] = EE;
                             }
                         }
@@ -190,7 +190,7 @@ namespace Nebukam.Geom.Algorithms
 
                     if(edge.d != 0) { continue; }
 
-                    A = edge.A; B = edge.B;
+                    A = edge.x; B = edge.y;
                     vA = vertices[A]; vB = vertices[B];
 
                     Triad(out triad, index, A, B);
@@ -248,9 +248,9 @@ namespace Nebukam.Geom.Algorithms
                     //This is a bad triangle.
                     //Add edges forming the triangle to the list of hole boundaries
                     A = triad.A; B = triad.B; C = triad.C;
-                    AB = new UnsignedEdge(A, B);
-                    BC = new UnsignedEdge(B, C);
-                    CA = new UnsignedEdge(C, A);
+                    AB = new UIntPair(A, B);
+                    BC = new UIntPair(B, C);
+                    CA = new UIntPair(C, A);
 
                     #region Loop
 
@@ -261,7 +261,7 @@ namespace Nebukam.Geom.Algorithms
                         EE = outputEdges[ie];
 
                         inc = false;
-                        iA = EE.A; iB = EE.B;
+                        iA = EE.x; iB = EE.y;
 
                         if (!bAB && ((iA == A && iB == B) || (iA == B && iB == A))) { bAB = true; }
                         else if (!bBC && ((iA == B && iB == C) || (iA == C && iB == B))) { bBC = true; }

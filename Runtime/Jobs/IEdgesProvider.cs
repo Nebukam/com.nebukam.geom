@@ -30,7 +30,7 @@ namespace Nebukam.Geom
         /// The ITriadProvider used during preparation.
         /// </summary>
         ITriadProvider triadProvider { get; }
-        NativeList<UnsignedEdge> outputEdges { get; }
+        NativeList<UIntPair> outputEdges { get; }
     }
 
 }

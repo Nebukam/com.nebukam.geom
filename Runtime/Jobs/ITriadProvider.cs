@@ -32,6 +32,6 @@ namespace Nebukam.Geom
         IVerticesProvider verticesProvider { get; }
         NativeList<Triad> outputTriangles { get; }
         NativeList<int> outputHullVertices { get; }
-        NativeHashMap<int, UnsignedEdge> outputUnorderedHull { get; }
+        NativeHashMap<int, UIntPair> outputUnorderedHull { get; }
     }
 }

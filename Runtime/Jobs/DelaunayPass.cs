@@ -34,7 +34,7 @@ namespace Nebukam.Geom
         protected bool m_computeTriadCentroid = false;
         protected NativeList<Triad> m_outputTriangles = new NativeList<Triad>(0, Allocator.Persistent);
         protected NativeList<int> m_outputHullVertices = new NativeList<int>(0, Allocator.Persistent);
-        protected NativeHashMap<int, UnsignedEdge> m_outputUnorderedHull = new NativeHashMap<int, UnsignedEdge>(0, Allocator.Persistent);
+        protected NativeHashMap<int, UIntPair> m_outputUnorderedHull = new NativeHashMap<int, UIntPair>(0, Allocator.Persistent);
 
         /// <summary>
         /// The IVerticesProvider used for the triangulation.
@@ -57,7 +57,7 @@ namespace Nebukam.Geom
         /// <summary>
         /// Unordered hull edges
         /// </summary>
-        public NativeHashMap<int, UnsignedEdge> outputUnorderedHull { get { return m_outputUnorderedHull; } }
+        public NativeHashMap<int, UIntPair> outputUnorderedHull { get { return m_outputUnorderedHull; } }
 
         protected override void InternalLock()
         {
