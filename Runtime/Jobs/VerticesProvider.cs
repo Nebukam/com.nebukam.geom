@@ -79,6 +79,10 @@ namespace Nebukam.Geom
             if (!disposing) { return; }
 
             m_vertices = null;
+
+            m_lockedVertices.Clear();
+            m_lockedVertices = null;
+
             m_outputVertices.Dispose();
         }
 
