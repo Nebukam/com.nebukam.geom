@@ -1,10 +1,10 @@
 {
   "name": "com.nebukam.geom",
-  "version": "0.0.1",
+  "version": "0.0.1a",
   "displayName": "N:Geom",
   "description": "Various geometry utils, from splines to procedural mesh generation",
-  "unity": "2019.1",
-  "unityRelease": "10f1",
+  "unity": "2019.4",
+  "unityRelease": "17f1",
   "keywords": [
     "Geometry",
     "Splines"
@@ -16,10 +16,10 @@
     "url": "https://github.com/Nebukam/com.nebukam.geom.git"
   },
   "dependencies": {
-    "com.unity.burst": "1.1.2",
-    "com.unity.collections": "0.0.9",
-	"com.unity.jobs": "0.0.7",
-    "com.unity.mathematics": "1.1.0",
+    "com.unity.burst": "1.4.3",
+    "com.unity.collections": "0.9.0-preview.6",
+	"com.unity.jobs": "0.2.10-preview.13",
+    "com.unity.mathematics": "1.2.1",
     "com.nebukam.common": "https://github.com/Nebukam/com.nebukam.common.git",
     "com.nebukam.job-assist": "https://github.com/Nebukam/com.nebukam.job-assist.git"
   }
