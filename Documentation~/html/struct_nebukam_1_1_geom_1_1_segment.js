@@ -1,0 +1,26 @@
+var struct_nebukam_1_1_geom_1_1_segment =
+[
+    [ "Segment", "struct_nebukam_1_1_geom_1_1_segment.html#a13da9fe45a7c8357a22c3f00b2341c3e", null ],
+    [ "Segment", "struct_nebukam_1_1_geom_1_1_segment.html#a63ac5e813cbf3aef0384d1e45bad1580", null ],
+    [ "At", "struct_nebukam_1_1_geom_1_1_segment.html#a612ac96c0c16e23ab966d9d87a5ea7a9", null ],
+    [ "ClosestPoint", "struct_nebukam_1_1_geom_1_1_segment.html#a5d3ad73d522707d37ebfef1ef3ba83a0", null ],
+    [ "IsBetween", "struct_nebukam_1_1_geom_1_1_segment.html#abab5c3f198a13f00a0b52cc805dc0561", null ],
+    [ "IsBetween", "struct_nebukam_1_1_geom_1_1_segment.html#a9e0b136dafd6b0fdad1286f379a24326", null ],
+    [ "IsBetweenXY", "struct_nebukam_1_1_geom_1_1_segment.html#a4ac93f4a4f3bb6138e60efb52241132c", null ],
+    [ "IsBetweenXZ", "struct_nebukam_1_1_geom_1_1_segment.html#a81265e5a82b9a2b0c468ca56cb9c5411", null ],
+    [ "IsIntersecting", "struct_nebukam_1_1_geom_1_1_segment.html#a127bbcf5ea1b60949d85867751abb82c", null ],
+    [ "IsIntersecting", "struct_nebukam_1_1_geom_1_1_segment.html#a65d16fd5bcc132e496cf9b2f315793ee", null ],
+    [ "IsIntersectingXY", "struct_nebukam_1_1_geom_1_1_segment.html#ad749ed43cb50b708efcb963822f699ee", null ],
+    [ "IsIntersectingXY", "struct_nebukam_1_1_geom_1_1_segment.html#ade7a519e8ae3fa864f9c7c5c03972647", null ],
+    [ "IsIntersectingXZ", "struct_nebukam_1_1_geom_1_1_segment.html#ab4de645493fc5815b9f597c2b9d4121a", null ],
+    [ "IsIntersectingXZ", "struct_nebukam_1_1_geom_1_1_segment.html#ad0ce5825070125c86437c159d559cd00", null ],
+    [ "A", "struct_nebukam_1_1_geom_1_1_segment.html#addf18c3f1d3c772bbe6032f9cb3d11ca", null ],
+    [ "B", "struct_nebukam_1_1_geom_1_1_segment.html#ab9a174d3f6ed772c0853127f0d443044", null ],
+    [ "zero", "struct_nebukam_1_1_geom_1_1_segment.html#ad5dd4561de88e55bdbe5c2a452557902", null ],
+    [ "center", "struct_nebukam_1_1_geom_1_1_segment.html#a653106369e9ebc8a592b7b61d9acf38d", null ],
+    [ "dir", "struct_nebukam_1_1_geom_1_1_segment.html#ad1c93cbca0cf8247270c97f2b9220700", null ],
+    [ "distance", "struct_nebukam_1_1_geom_1_1_segment.html#aec66662d589ffdb6cc4441777289b0e1", null ],
+    [ "normal", "struct_nebukam_1_1_geom_1_1_segment.html#a4906b5bbbc43828e41328f90ab7b8a5c", null ],
+    [ "normalizedDir", "struct_nebukam_1_1_geom_1_1_segment.html#aaed45b763abd4b9f87e1b1e5b185ae0a", null ],
+    [ "sqrDistance", "struct_nebukam_1_1_geom_1_1_segment.html#ab5737cf6dd7342944ebde2b5bdae7404", null ]
+];
