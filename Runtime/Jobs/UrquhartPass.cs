@@ -68,8 +68,8 @@ namespace Nebukam.Geom
         protected override void Prepare(ref UrquhartJob job, float delta)
         {
 
-            if (!TryGetFirstInGroup(out m_verticesProvider)
-                || !TryGetFirstInGroup(out m_triadProvider))
+            if (!TryGetFirstInCompound(out m_verticesProvider)
+                || !TryGetFirstInCompound(out m_triadProvider))
             {
                 throw new System.Exception("Missing providers");
             }
@@ -93,16 +93,10 @@ namespace Nebukam.Geom
 
         }
 
-
-
-        protected override void Dispose(bool disposing)
+        protected override void InternalDispose()
         {
-            base.Dispose(disposing);
-            if (!disposing) { return; }
-
             m_outputEdges.Dispose();
             m_outputConnections.Dispose();
-
         }
 
     }

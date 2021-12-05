@@ -53,7 +53,7 @@ namespace Nebukam.Geom
         protected override void Prepare(ref VoronoiTriangulationJob job, float delta)
         {
 
-            if (!TryGetFirstInGroup(out m_voronoiProvider))
+            if (!TryGetFirstInCompound(out m_voronoiProvider))
             {
                 throw new System.Exception("No IVerticesProvider in chain !");
             }
@@ -84,19 +84,12 @@ namespace Nebukam.Geom
 
         }
 
-
-
-        protected override void Dispose(bool disposing)
+        protected override void InternalDispose()
         {
-            base.Dispose(disposing);
-            if (!disposing) { return; }
-
             m_outputVertices.Dispose();
             m_outputTriangles.Dispose();
             m_outputHullVertices.Dispose();
             m_outputUnorderedHull.Dispose();
-
         }
-
     }
 }

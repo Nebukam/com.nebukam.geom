@@ -67,7 +67,7 @@ namespace Nebukam.Geom
         protected override void Prepare(ref DelaunayJob job, float delta)
         {
 
-            if (!TryGetFirstInGroup(out m_verticesProvider))
+            if (!TryGetFirstInCompound(out m_verticesProvider))
             {
                 throw new System.Exception("No IVerticesProvider in chain !");
             }
@@ -94,11 +94,8 @@ namespace Nebukam.Geom
 
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void InternalDispose()
         {
-            base.Dispose(disposing);
-            if (!disposing) { return; }
-
             m_outputTriangles.Dispose();
             m_outputHullVertices.Dispose();
             m_outputUnorderedHull.Dispose();
