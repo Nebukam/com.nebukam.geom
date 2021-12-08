@@ -67,11 +67,6 @@ namespace Nebukam.Geom
             }
         }
 
-        protected override void InternalUnlock()
-        {
-
-        }
-
         protected override void InternalDispose()
         {
             m_vertices = null;

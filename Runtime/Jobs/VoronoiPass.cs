@@ -109,11 +109,6 @@ namespace Nebukam.Geom
 
         }
 
-        protected override void Apply(ref VoronoiJob job)
-        {
-
-        }
-
         protected override void InternalDispose()
         {
             m_outputVertices.Dispose();

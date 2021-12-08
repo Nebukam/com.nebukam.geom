@@ -62,9 +62,6 @@ namespace Nebukam.Geom
         /// </summary>
         public ITriadProvider triadProvider { get { return m_triadProvider; } }
 
-        protected override void InternalLock() { }
-        protected override void InternalUnlock() { }
-
         protected override void Prepare(ref UrquhartJob job, float delta)
         {
 
@@ -85,11 +82,6 @@ namespace Nebukam.Geom
 
             job.outputEdges = m_outputEdges;
             job.outputConnections = m_outputConnections;
-
-        }
-
-        protected override void Apply(ref UrquhartJob job)
-        {
 
         }
 

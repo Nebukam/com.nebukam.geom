@@ -63,16 +63,6 @@ namespace Nebukam.Geom
             }
         }
 
-        protected override void Apply(ref Unemployed job)
-        {
-
-        }
-
-        protected override void InternalUnlock()
-        {
-
-        }
-
         protected override void InternalDispose()
         {
             m_vertices = null;

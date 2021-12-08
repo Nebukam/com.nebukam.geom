@@ -47,9 +47,6 @@ namespace Nebukam.Geom
         public IVerticesProvider verticesProvider { get { return m_verticesProvider; } }
         public IVoronoiProvider voronoiProvider { get { return m_voronoiProvider; } }
 
-        protected override void InternalLock() { }
-        protected override void InternalUnlock() { }
-
         protected override void Prepare(ref VoronoiTriangulationJob job, float delta)
         {
 
@@ -76,11 +73,6 @@ namespace Nebukam.Geom
             job.outputTriangles = m_outputTriangles;
             job.outputHullVertices = m_outputHullVertices;
             job.outputUnorderedHullEdges = m_outputUnorderedHull;
-
-        }
-
-        protected override void Apply(ref VoronoiTriangulationJob job)
-        {
 
         }
 

@@ -56,21 +56,6 @@ namespace Nebukam.Geom
             job.outputEdges = m_outputEdges;
         }
 
-        protected override void Apply(ref EdgesExtractionJob job)
-        {
-
-        }
-
-        protected override void InternalLock()
-        {
-
-        }
-
-        protected override void InternalUnlock()
-        {
-
-        }
-
         protected override void InternalDispose()
         {
             m_outputEdges.Dispose();

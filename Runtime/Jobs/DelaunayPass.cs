@@ -59,11 +59,6 @@ namespace Nebukam.Geom
         /// </summary>
         public NativeHashMap<int, UIntPair> outputUnorderedHull { get { return m_outputUnorderedHull; } }
 
-        protected override void InternalLock()
-        {
-
-        }
-
         protected override void Prepare(ref DelaunayJob job, float delta)
         {
 
@@ -81,16 +76,6 @@ namespace Nebukam.Geom
             job.outputTriangles = m_outputTriangles;
             job.outputHullVertices = m_outputHullVertices;
             job.outputUnorderedHullEdges = m_outputUnorderedHull;
-
-        }
-
-        protected override void Apply(ref DelaunayJob job)
-        {
-
-        }
-
-        protected override void InternalUnlock()
-        {
 
         }
 
