@@ -22,6 +22,7 @@ using Nebukam.JobAssist;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
+using Nebukam.Common;
 
 namespace Nebukam.Geom
 {

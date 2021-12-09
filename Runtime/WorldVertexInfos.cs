@@ -1,4 +1,5 @@
 ﻿using Unity.Mathematics;
+using Nebukam.Common;
 
 namespace Nebukam.Geom
 {

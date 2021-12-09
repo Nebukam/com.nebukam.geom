@@ -21,6 +21,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
+using Nebukam.Common;
 
 namespace Nebukam.Geom.Algorithms
 {
