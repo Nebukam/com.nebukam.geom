@@ -71,7 +71,7 @@ namespace Nebukam.Geom
         protected override void InternalDispose()
         {
             m_vertices = null;
-            m_outputVertices.Dispose();
+            m_outputVertices.Release();
         }
 
     }

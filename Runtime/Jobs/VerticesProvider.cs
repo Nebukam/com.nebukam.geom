@@ -71,7 +71,7 @@ namespace Nebukam.Geom
             m_lockedVertices.Clear();
             m_lockedVertices = null;
 
-            m_outputVertices.Dispose();
+            m_outputVertices.Release();
         }
 
     }

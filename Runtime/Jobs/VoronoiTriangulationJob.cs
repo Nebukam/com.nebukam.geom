@@ -102,7 +102,7 @@ namespace Nebukam.Geom
                 neighbors.Clear();
                 tCount = inputSites.PushValues(ref i, ref neighbors);
 
-                neighborsList.Dispose();
+                neighborsList.Release();
                 neighborsList = new NativeArray<IndexedVertex>(tCount, Allocator.Temp);
 
                 center = inputVertices[A];

@@ -19,6 +19,7 @@
 // SOFTWARE.
 
 using Unity.Collections;
+using static Nebukam.JobAssist.Extensions;
 
 namespace Nebukam.Geom
 {
@@ -76,7 +77,7 @@ namespace Nebukam.Geom
         protected override void InternalDispose()
         {
             base.InternalDispose();
-            m_outputTriangles.Dispose();
+            m_outputTriangles.Release();
         }
 
     }

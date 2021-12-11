@@ -79,10 +79,10 @@ namespace Nebukam.Geom
 
         protected override void InternalDispose()
         {
-            m_outputVertices.Dispose();
-            m_outputTriangles.Dispose();
-            m_outputHullVertices.Dispose();
-            m_outputUnorderedHull.Dispose();
+            m_outputVertices.Release();
+            m_outputTriangles.Release();
+            m_outputHullVertices.Release();
+            m_outputUnorderedHull.Release();
         }
     }
 }

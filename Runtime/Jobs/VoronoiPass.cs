@@ -111,9 +111,9 @@ namespace Nebukam.Geom
 
         protected override void InternalDispose()
         {
-            m_outputVertices.Dispose();
-            m_outputSites.Dispose();
-            m_outputEdges.Dispose();
+            m_outputVertices.Release();
+            m_outputSites.Release();
+            m_outputEdges.Release();
         }
 
     }

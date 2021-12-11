@@ -87,8 +87,8 @@ namespace Nebukam.Geom
 
         protected override void InternalDispose()
         {
-            m_outputEdges.Dispose();
-            m_outputConnections.Dispose();
+            m_outputEdges.Release();
+            m_outputConnections.Release();
         }
 
     }
