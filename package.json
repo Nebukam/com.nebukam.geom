@@ -1,6 +1,6 @@
 {
   "name": "com.nebukam.geom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "N:Geom",
   "description": "Various geometry utils, from splines to procedural mesh generation",
   "unity": "2019.4",
