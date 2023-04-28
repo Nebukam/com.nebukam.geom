@@ -39,11 +39,11 @@ namespace Nebukam.Geom
         [ReadOnly]
         public NativeList<int> inputHullVertices;
         [ReadOnly]
-        public NativeHashMap<int, UIntPair> inputUnorderedHull;
+        public NativeParallelHashMap<int, UIntPair> inputUnorderedHull;
 
         public float centroidWeight;
         public NativeList<float3> outputVertices;
-        public NativeMultiHashMap<int, int> outputSites;
+        public NativeParallelMultiHashMap<int, int> outputSites;
         public NativeList<UIntPair> outputEdges;
 
         public void Execute()
@@ -53,8 +53,8 @@ namespace Nebukam.Geom
             float3 centroid, circumcenter;
             UIntPair edge;
             Triad triad;
-            NativeHashMap<UIntPair, int> uniqueEdges = new NativeHashMap<UIntPair, int>(siteCount * 3, Allocator.Temp);
-            NativeMultiHashMap<UIntPair, int> connectedTriangles = new NativeMultiHashMap<UIntPair, int>(siteCount * 3, Allocator.Temp);
+            NativeParallelHashMap<UIntPair, int> uniqueEdges = new NativeParallelHashMap<UIntPair, int>(siteCount * 3, Allocator.Temp);
+            NativeParallelMultiHashMap<UIntPair, int> connectedTriangles = new NativeParallelMultiHashMap<UIntPair, int>(siteCount * 3, Allocator.Temp);
             NativeList<int> neighbors = new NativeList<int>(0, Allocator.Temp);
             float weight = clamp(centroidWeight, 0f, 1f);
 

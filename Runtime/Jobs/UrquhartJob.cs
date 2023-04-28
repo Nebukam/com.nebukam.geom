@@ -38,10 +38,10 @@ namespace Nebukam.Geom
         [ReadOnly]
         public NativeList<int> inputHullVertices;
         [ReadOnly]
-        public NativeHashMap<int, UIntPair> inputUnorderedHull;
+        public NativeParallelHashMap<int, UIntPair> inputUnorderedHull;
 
         public NativeList<UIntPair> outputEdges;
-        public NativeMultiHashMap<int, int> outputConnections;
+        public NativeParallelMultiHashMap<int, int> outputConnections;
 
         public void Execute()
         {
@@ -52,8 +52,8 @@ namespace Nebukam.Geom
             UIntPair edge;
             Triad triad;
             bool tooLong;
-            NativeHashMap<UIntPair, bool> longuestEdges = new NativeHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
-            NativeHashMap<UIntPair, bool> uniqueEdges = new NativeHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
+            NativeParallelHashMap<UIntPair, bool> longuestEdges = new NativeParallelHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
+            NativeParallelHashMap<UIntPair, bool> uniqueEdges = new NativeParallelHashMap<UIntPair, bool>(triCount * 3, Allocator.Temp);
 
             for (int i = 0; i < triCount; i++)
             {

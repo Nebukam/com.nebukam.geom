@@ -41,7 +41,7 @@ namespace Nebukam.Geom
             outputEdges.Clear();
 
             int triCount = inputTriangles.Length, A, B, C;
-            NativeHashMap<int, bool> m_hash = new NativeHashMap<int, bool>(triCount, Allocator.Temp);
+            NativeParallelHashMap<int, bool> m_hash = new NativeParallelHashMap<int, bool>(triCount, Allocator.Temp);
 
             bool bAB = false, bBC = false, bCA = false, r;
             int hAB, hBC, hCA;

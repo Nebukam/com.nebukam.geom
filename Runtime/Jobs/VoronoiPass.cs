@@ -29,7 +29,7 @@ namespace Nebukam.Geom
     {
         float centroidWeight { get; set; }
         IVerticesProvider verticesProvider { get; }
-        NativeMultiHashMap<int, int> outputSites { get; } //Key is input vertice, Values are connected Sites index
+        NativeParallelMultiHashMap<int, int> outputSites { get; } //Key is input vertice, Values are connected Sites index
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Nebukam.Geom
         protected ITriadProvider m_triadProvider = null;
 
         protected NativeList<float3> m_outputVertices = new NativeList<float3>(0, Allocator.Persistent);
-        protected NativeMultiHashMap<int, int> m_outputSites = new NativeMultiHashMap<int, int>(0, Allocator.Persistent);
+        protected NativeParallelMultiHashMap<int, int> m_outputSites = new NativeParallelMultiHashMap<int, int>(0, Allocator.Persistent);
         protected NativeList<UIntPair> m_outputEdges = new NativeList<UIntPair>(0, Allocator.Persistent);
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Nebukam.Geom
         /// <summary>
         /// Neighbors site for each input vertices
         /// </summary>
-        public NativeMultiHashMap<int, int> outputSites { get { return m_outputSites; } }
+        public NativeParallelMultiHashMap<int, int> outputSites { get { return m_outputSites; } }
 
         /// <summary>
         /// Voronoi edges

@@ -39,7 +39,7 @@ namespace Nebukam.Geom
         public NativeList<float3> inputVertices;
         public NativeList<Triad> outputTriangles;
         public NativeList<int> outputHullVertices;
-        public NativeHashMap<int, UIntPair> outputUnorderedHullEdges;
+        public NativeParallelHashMap<int, UIntPair> outputUnorderedHullEdges;
 
         public bool computeTriadCentroid;
 

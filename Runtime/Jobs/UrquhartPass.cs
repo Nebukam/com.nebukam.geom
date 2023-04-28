@@ -27,7 +27,7 @@ namespace Nebukam.Geom
     public interface IUrquhartProvider : IEdgesProvider
     {
         IVerticesProvider verticesProvider { get; }
-        NativeMultiHashMap<int, int> outputConnections { get; }
+        NativeParallelMultiHashMap<int, int> outputConnections { get; }
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ namespace Nebukam.Geom
         protected ITriadProvider m_triadProvider = null;
 
         protected NativeList<UIntPair> m_outputEdges = new NativeList<UIntPair>(0, Allocator.Persistent);
-        protected NativeMultiHashMap<int, int> m_outputConnections = new NativeMultiHashMap<int, int>(0, Allocator.Persistent);
+        protected NativeParallelMultiHashMap<int, int> m_outputConnections = new NativeParallelMultiHashMap<int, int>(0, Allocator.Persistent);
 
         /// <summary>
         /// Voronoi edges
@@ -50,7 +50,7 @@ namespace Nebukam.Geom
         /// <summary>
         /// Alternative edge representation
         /// </summary>
-        public NativeMultiHashMap<int, int> outputConnections { get { return m_outputConnections; } }
+        public NativeParallelMultiHashMap<int, int> outputConnections { get { return m_outputConnections; } }
 
         /// <summary>
         /// Vertices provider used for the Urquhart measuring

@@ -34,7 +34,7 @@ namespace Nebukam.Geom
         protected bool m_computeTriadCentroid = false;
         protected NativeList<Triad> m_outputTriangles = new NativeList<Triad>(0, Allocator.Persistent);
         protected NativeList<int> m_outputHullVertices = new NativeList<int>(0, Allocator.Persistent);
-        protected NativeHashMap<int, UIntPair> m_outputUnorderedHull = new NativeHashMap<int, UIntPair>(0, Allocator.Persistent);
+        protected NativeParallelHashMap<int, UIntPair> m_outputUnorderedHull = new NativeParallelHashMap<int, UIntPair>(0, Allocator.Persistent);
 
         /// <summary>
         /// The IVerticesProvider used during preparation.
@@ -51,7 +51,7 @@ namespace Nebukam.Geom
         /// </summary>
         public NativeList<Triad> outputTriangles { get { return m_outputTriangles; } }
         public NativeList<int> outputHullVertices { get { return m_outputHullVertices; } }
-        public NativeHashMap<int, UIntPair> outputUnorderedHull { get { return m_outputUnorderedHull; } }
+        public NativeParallelHashMap<int, UIntPair> outputUnorderedHull { get { return m_outputUnorderedHull; } }
 
         protected override void Prepare(ref DelaunayJob job, float delta)
         {
